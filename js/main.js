@@ -185,6 +185,25 @@ markActive();
 // Faixas contínuas (portfólio e depoimentos): duplica os itens o mínimo necessário para o loop.
 // Poucas cópias = faixa mais curta, que no celular evita falhas de renderização.
 let larguraFaixas = 0;
+const animacoesFaixas = new Map();
+const podePausar = matchMedia('(hover: hover) and (pointer: fine)');
+
+// A animação é feita em JS (Web Animations API) com deslocamento em pixels.
+// Com @keyframes + var(--copias) o WebKit/iOS não recalculava a variável depois que
+// a animação já tinha começado: a faixa andava 1/3 quando só havia 2 cópias e o
+// conteúdo aparecia cortado ou sumia.
+function animarFaixa(marquee, track, passoPx) {
+  animacoesFaixas.get(track)?.cancel();
+  if (reduceMotion.matches || !track.animate) return; // sem animação a faixa fica parada, mas visível
+
+  const segundos = parseFloat(getComputedStyle(track).getPropertyValue('--duracao')) || 40;
+  const animacao = track.animate(
+    [{ transform: 'translate3d(0, 0, 0)' }, { transform: `translate3d(${-passoPx}px, 0, 0)` }],
+    { duration: segundos * 1000, iterations: Infinity, easing: 'linear',
+      direction: marquee.classList.contains('marquee--reverse') ? 'reverse' : 'normal' }
+  );
+  animacoesFaixas.set(track, animacao);
+}
 
 // remontar reinicia a animação, então no resize só refaz se a largura mudou de fato
 // (no iOS o resize dispara a toda hora quando a barra de endereço aparece/some)
@@ -210,8 +229,14 @@ function montarFaixas(forcar = false) {
         track.append(copy);
       });
     }
-    track.style.setProperty('--copias', copias);
     marquee.classList.add('is-ready');
+    animarFaixa(marquee, track, track.scrollWidth / copias); // medida real de um conjunto
+
+    if (podePausar.matches && !marquee.dataset.pausa) {
+      marquee.dataset.pausa = '1';
+      marquee.addEventListener('mouseenter', () => animacoesFaixas.get(track)?.pause());
+      marquee.addEventListener('mouseleave', () => animacoesFaixas.get(track)?.play());
+    }
   });
 }
 

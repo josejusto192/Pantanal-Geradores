@@ -1062,12 +1062,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   padding-right: var(--gap-x);
   margin-left: var(--inicio, 0px);
 }
-.marquee.is-ready .marquee__track { animation: marquee var(--duracao) linear infinite; }
-.marquee--reverse.is-ready .marquee__track { animation-direction: reverse; }
-@media (hover: hover) and (pointer: fine) {
-  .marquee:hover .marquee__track { animation-play-state: paused; }
-}
-@keyframes marquee { to { transform: translate3d(calc(-100% / var(--copias, 3)), 0, 0); } }
+/* a animação da faixa é criada em JS (Web Animations API), com deslocamento em pixels:
+   @keyframes + var() não é recalculado pelo WebKit depois que a animação já começou */
 
 .portfolio__item {
   flex: 0 0 var(--item-w);
@@ -1940,7 +1936,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .etapas.anima .etapa__numero,
   .etapas.anima .etapa__foto,
   .etapas.anima .etapa__conteudo { opacity: 1; translate: none; scale: 1; transition: none; }
-  .marquee .marquee__track { animation: none !important; }
+  /* faixas: o JS não cria a animação quando o motion está reduzido */
   .faq-item::details-content { transition: none; }
   .servicos__track { transition: none !important; }
 }
