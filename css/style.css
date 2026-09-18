@@ -143,17 +143,16 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: rgba(255, 255, 255, .82);
 }
 .navbar__logo {
-  width: 242px;
-  height: 35.8px;
-  overflow: hidden;
+  width: 247.378px; /* tamanho real do SVG: a caixa do Figma cortava as bordas */
   flex-shrink: 0;
 }
-.navbar__logo img { width: 247.378px; height: 36.985px; max-width: none; }
+.navbar__logo img { width: 100%; height: auto; }
 .navbar__links {
   display: flex;
   align-items: center;
   gap: 20px;
   font-size: 20px;
+  font-weight: 500;
   white-space: nowrap;
 }
 .navbar__links > li > a { display: block; transition: color .2s; }
@@ -177,7 +176,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .navbar__contato img { width: 19px; height: 19px; }
 
 /* Megamenu de Serviços */
-.navbar__servicos { position: relative; }
+.navbar__servicos { position: static; }
 .navbar__trigger {
   display: inline-flex;
   align-items: center;
@@ -202,9 +201,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   position: absolute;
   z-index: 20;
   white-space: normal; /* o menu usa nowrap; aqui os textos precisam quebrar */
-  top: calc(100% + 18px);
-  left: 50%;
-  width: min(760px, 100vw - 40px);
+  top: calc(100% + 10px);
+  right: 16px;
+  width: min(900px, 100vw - 40px);
   padding: 24px;
   border: 1px solid var(--bg-light);
   border-radius: 20px;
@@ -213,24 +212,24 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   opacity: 0;
   visibility: hidden;
   scale: .98;
-  translate: -50% -8px;
+  translate: 0 -8px;
   transition: opacity .2s, scale .2s, translate .2s, visibility .2s;
 }
 /* ponte invisível: o ponteiro atravessa o espaço até o painel sem fechar o menu */
 .mega::before {
   content: "";
   position: absolute;
-  top: -18px;
+  top: -10px;
   left: 0;
   right: 0;
-  height: 18px;
+  height: 10px;
 }
-/* setinha apontando para "Serviços" */
+/* setinha apontando para "Serviços" (posição calculada no JS) */
 .mega::after {
   content: "";
   position: absolute;
   top: -7px;
-  left: 50%;
+  left: var(--seta, 50%);
   width: 14px;
   height: 14px;
   border: 1px solid var(--bg-light);
@@ -244,8 +243,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   opacity: 1;
   visibility: visible;
   scale: 1;
-  translate: -50% 0;
+  translate: 0;
 }
+.mega__voltar { display: none; }
 .mega__lista {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -391,7 +391,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   position: absolute;
   z-index: 4;
   left: 50%;
-  bottom: -0.5px;
+  bottom: -1px; /* mesma sobreposição do recorte de Benefícios */
   width: 138px;
   height: 41px;
   transform: translateX(-50%);
@@ -533,7 +533,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   backdrop-filter: blur(7.25px);
   -webkit-backdrop-filter: blur(7.25px);
 }
-.abordagem__logo img { width: 242px; height: 35.8px; object-fit: none; object-position: left top; } /* SVG em tamanho natural, recortado como no Figma */
+.abordagem__logo img { width: 247.378px; height: auto; } /* logo inteiro, sem recorte */
 
 .abordagem__conteudo {
   display: flex;
@@ -592,7 +592,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .beneficios__divisor {
   position: absolute;
-  top: 0;
+  top: -1px; /* 1px sobre a área branca: sem isso sobra um fio escuro em zoom fracionário */
   left: calc(50% - .5px);
   width: 101px;
   height: 30px;
@@ -713,8 +713,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: flex;
   will-change: transform;
   gap: var(--serv-gap);
-  /* um card fica "antes" do container, aparecendo cortado à esquerda */
-  margin-left: calc(-1 * (var(--serv-card-w) + var(--serv-gap)));
+  /* cards "antes" do container (aparecem cortados à esquerda); o JS calcula quantos, para
+     cobrir também telas ultrawide */
+  margin-left: calc(-1 * var(--serv-antes, 1) * (var(--serv-card-w) + var(--serv-gap)));
   touch-action: pan-y;
 }
 .serv-card {
@@ -845,16 +846,30 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .etapa--invertida .etapa__foto { grid-column: 3; }
 .etapa--invertida .etapa__conteudo { grid-column: 1; }
 
-/* linha verde ligando o número desta etapa ao da próxima (os números ficam por cima) */
-.etapa:not(:last-child)::before {
+/* linha ligando o número desta etapa ao da próxima: trilho + preenchimento (os números ficam por cima) */
+.etapa:not(:last-child)::before,
+.etapa:not(:last-child)::after {
   content: "";
   position: absolute;
   left: calc(50% - 1px);
   top: 50%;
   bottom: calc(-50% - 14px);
   width: 2px;
+}
+.etapa:not(:last-child)::before { background: rgba(168, 207, 69, .25); }
+.etapa:not(:last-child)::after {
+  bottom: auto;
+  height: calc(var(--preenchido, 1) * (100% + 14px));
   background: var(--lime);
 }
+
+/* entrada das etapas (só com JS, para funcionar sem ele também) */
+.etapas.anima .etapa {
+  opacity: 0;
+  translate: 0 28px;
+  transition: opacity .6s ease, translate .6s cubic-bezier(.2, .8, .2, 1);
+}
+.etapas.anima .etapa.is-visivel { opacity: 1; translate: 0; }
 .etapa__numero {
   position: relative;
   z-index: 1;
@@ -908,7 +923,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: flex;
   flex-direction: column;
   gap: 50px;
-  padding-block: 80px 60px;
+  padding-block: 80px; /* igual em cima e embaixo */
   background: var(--navy);
 }
 /* ondas azuis (mesmo desenho): a de cima espelhada na horizontal, a de baixo na vertical */
@@ -1109,7 +1124,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   --item-w: 413px;
   --gap-x: 20px;
   --duracao: 70s; /* mais lento que o portfólio: dá tempo de ler */
-  --inicio: calc(50% - 1289px); /* no Figma as faixas começam em x = -329 */
+  --inicio: min(0px, calc(50% - 1289px)); /* no Figma começam em x = -329; nunca à direita da borda */
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -1182,7 +1197,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center; /* logo centralizado na foto */
   padding: 80px;
   border-radius: 28px;
   overflow: hidden;
@@ -1204,26 +1220,15 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   inset: 0;
   background: linear-gradient(rgba(13, 17, 56, 0), var(--navy));
 }
-.contato__logo { width: 242px; height: 35.8px; object-fit: none; object-position: left top; }
+.contato__logo { width: 247.378px; height: auto; } /* logo inteiro, sem recorte */
 /* recorte branco com seta na borda direita da foto (SVG girado -90°) */
 .contato__divisor {
   position: absolute;
-  right: 0;
+  right: -1px; /* 1px para fora: cobre a emenda com a área branca, sem invadir a foto */
   top: calc(50% - 1.02px);
   width: 29px;
   height: 97.633px;
   translate: 0 -50%;
-}
-.contato__divisor::after {
-  /* a foto e o recorte terminam na mesma coordenada; em telas/zooms fracionários sobrava
-     meio pixel escuro da foto. Esta faixa branca cobre a emenda. */
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: -1px;
-  width: 2px;
-  background: var(--white);
 }
 .contato__divisor img {
   position: absolute;
@@ -1427,7 +1432,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   align-items: flex-start;
   gap: 18.4px;
 }
-.rodape__logo img { width: 260px; height: 38.5px; }
+.rodape__logo img { width: 260px; height: auto; }
 .rodape__descricao {
   padding-block: 4.85px .75px;
   font-size: 15px;
@@ -1567,6 +1572,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     flex-direction: column;
     align-items: stretch;
     gap: 0;
+    max-height: calc(100vh - 150px); /* com 10 serviços a lista passa da tela */
+    overflow-y: auto;
+    overscroll-behavior: contain;
     padding: 8px 16px;
     border-radius: 16px;
     background: var(--white);
@@ -1574,27 +1582,62 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     display: none;
   }
   .navbar.is-open .navbar__links { display: flex; }
+  .navbar__links.tem-submenu { height: calc(100vh - 150px); }
 
-  /* no mobile o megamenu vira uma lista que expande dentro do menu */
-  .navbar__servicos { width: 100%; }
+  /* no mobile o megamenu é um submenu que desliza por cima do menu */
+  .navbar__servicos { position: static; width: 100%; }
   .navbar__trigger { width: 100%; justify-content: space-between; padding: 16px 0; }
   .mega {
-    position: static;
-    display: none;
+    position: absolute;
+    z-index: 5;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
     width: auto;
-    padding: 0 0 12px;
-    border-radius: 14px;
+    padding: 0 16px 16px;
+    border: 0;
+    border-radius: 16px;
     box-shadow: none;
+    background: var(--white);
     opacity: 1;
-    visibility: visible;
+    visibility: hidden;
     scale: 1;
-    translate: none;
+    translate: 100% 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transition: translate .28s ease, visibility .28s;
   }
-  .navbar__servicos.is-open .mega { display: block; translate: none; }
+  .navbar__servicos.is-open .mega { visibility: visible; translate: 0; }
   .mega::before, .mega::after { display: none; }
+
+  .mega__voltar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(13, 17, 56, .1);
+    background: var(--white);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .mega__voltar-seta {
+    width: 9px;
+    height: 9px;
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    border-radius: 1px;
+    rotate: 45deg;
+  }
+
   .mega__lista { grid-template-columns: 1fr; gap: 0; }
-  .mega__item { padding: 10px 0; }
-  .mega__rodape { flex-direction: column; align-items: flex-start; margin-top: 8px; }
+  .mega__item { padding: 14px 0; }
+  .mega__lista li + li .mega__item { border-top: 1px solid rgba(13, 17, 56, .07); }
+  .mega__texto strong { font-size: 17px; }
+  .mega__rodape { flex-direction: column; align-items: flex-start; margin-top: 16px; }
   .mega__rodape p { max-width: none; align-self: stretch; }
   .mega__btn { align-self: stretch; justify-content: space-between; }
   .navbar__links > li > a { padding: 16px 0; }
@@ -1636,9 +1679,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
   .contato__card { flex-direction: column; align-items: stretch; }
   .contato__visual { flex: none; height: 420px; padding: 48px; }
-  .contato__divisor { top: auto; bottom: 0; right: auto; left: 50%; width: 97.633px; height: 29px; translate: -50% 0; }
+  .contato__divisor { top: auto; bottom: -1px; right: auto; left: 50%; width: 97.633px; height: 29px; translate: -50% 0; }
   .contato__divisor img { rotate: none; }
-  .contato__divisor::after { top: auto; right: 0; left: 0; bottom: -1px; width: auto; height: 2px; }
   .contato__form-area { flex: none; padding: 48px; }
 
   .atendimento { flex-direction: column; align-items: center; gap: 56px; }
@@ -1695,7 +1737,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
   .rodape { padding: 56px 20px; border-radius: 20px 20px 0 0; }
   .rodape__colunas { grid-template-columns: 1fr; gap: 40px; padding-bottom: 32px; }
-  .rodape__logo img { width: 220px; height: 32.6px; }
+  .rodape__logo img { width: 220px; }
   .rodape__barra { flex-direction: column; align-items: flex-start; gap: 8px; padding: 20px 0; }
   .rodape__descricao br { display: none; }
 
@@ -1712,7 +1754,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .contato { padding-bottom: 80px; }
   .contato__card { border-radius: 20px; }
   .contato__visual { height: 300px; padding: 28px; border-radius: 20px; }
-  .contato__logo { width: 180px; height: 26.6px; object-fit: contain; }
+  .contato__logo { width: 190px; }
   .contato__form-area { padding: 28px; gap: 28px; }
   .contato__header { gap: 24px; }
   .contato__lead { font-size: 16px; }
@@ -1722,22 +1764,24 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .como-funciona__header { gap: 24px; }
   .como-funciona__lead { font-size: 16px; }
   .etapas { gap: 40px; }
-  .etapa { grid-template-columns: 59px 1fr; column-gap: 16px; row-gap: 20px; align-items: start; }
+  .etapa { grid-template-columns: 46px 1fr; column-gap: 14px; row-gap: 20px; align-items: start; }
+  .etapa__numero { width: 46px; height: 47px; border-width: 2px; border-radius: 11px; font-size: 22px; }
   .etapa .etapa__numero { grid-area: 1 / 1; }
   .etapa .etapa__foto { grid-area: 1 / 2; height: auto; aspect-ratio: 522 / 234; }
   .etapa .etapa__conteudo { grid-area: 2 / 2; padding: 0; gap: 20px; }
-  .etapa:not(:last-child)::before { left: 28.5px; top: 30px; bottom: -70px; } /* 40px de gap + centro do próximo número */
+  .etapa:not(:last-child)::before,
+  .etapa:not(:last-child)::after { left: 22px; top: 23.5px; bottom: -63.5px; } /* 40px de gap + centro do próximo número */
+  .etapa:not(:last-child)::after { bottom: auto; height: calc(var(--preenchido, 1) * (100% + 40px)); }
   .etapa h3 { font-size: 22px; }
   .etapa p { font-size: 16px; }
   .beneficios { padding-block: 80px; border-radius: 24px 24px 0 0; }
   .beneficios__inner, .beneficios__header { gap: 28px; }
   .beneficios__lead { font-size: 16px; }
   .ben-card { min-height: 0; padding: 28px 24px; }
-  .abordagem__logo img { width: 160px; height: 23.7px; object-fit: contain; }
+  .abordagem__logo img { width: 170px; }
 
   .navbar { padding: 16px; }
-  .navbar__logo { width: 180px; height: 26.6px; }
-  .navbar__logo img { width: 184px; height: 27.5px; }
+  .navbar__logo { width: 186px; }
 
   .hero__content { max-width: none; padding-top: 48px; padding-bottom: 0; gap: 28px; }
   .hero__heading { gap: 28px; }
@@ -1764,6 +1808,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .selo__texto, .atendimento__selo-texto { animation: none; }
+  .mega { transition: none; }
+  .etapas.anima .etapa { opacity: 1; translate: none; transition: none; }
   .marquee .marquee__track { animation: none !important; }
   .faq-item::details-content { transition: none; }
   .servicos__track { transition: none !important; }
