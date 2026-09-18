@@ -1892,6 +1892,14 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 
 @media (max-width: 900px) {
   .solucoes__cards { grid-template-columns: 1fr; }
+
+  /* as ondas têm 2400px+ de largura: em tela pequena só aparecia o miolo reto delas.
+     Aqui elas passam a caber na tela inteira, então a curva fica visível. */
+  .portfolio__onda { width: 100vw; height: 26px; translate: -50% 0; }
+  .servicos__onda--topo { width: 100vw; height: 34px; top: -24px; }
+  .servicos__onda--base { width: 100vw; height: 34px; bottom: -4px; }
+  .depoimentos__divisor { height: 30px; }
+  .faq__onda { height: 30px; top: -29px; }
 }
 
 @media (max-width: 768px) {
