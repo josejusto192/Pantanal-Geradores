@@ -197,7 +197,9 @@ function montarFaixas(forcar = false) {
     const items = [...track.children];
     const conjunto = track.scrollWidth; // largura de um conjunto, já com o espaçamento final
     if (!conjunto) return; // layout ainda não pronto
-    const alvo = Math.max(innerWidth, screen.width || 0); // cobre também o giro da tela
+    // o recuo inicial (margin-left negativo) também precisa ser coberto de cópias
+    const recuo = Math.abs(Math.min(0, parseFloat(getComputedStyle(track).marginLeft) || 0));
+    const alvo = Math.max(innerWidth, screen.width || 0) + recuo;
     const copias = Math.max(2, Math.ceil(alvo / conjunto) + 1);
 
     for (let i = 1; i < copias; i++) {

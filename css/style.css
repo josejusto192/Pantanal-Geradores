@@ -517,14 +517,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 /* float suave no hover (transform, não translate: translate é usado pela animação de entrada) */
 @media (hover: hover) and (pointer: fine) {
-  .sol-card { transition: transform .35s ease, box-shadow .35s ease; }
-  .sol-card:hover { transform: translateY(-8px); }
-  .sol-card--light:hover, .sol-card--lime:hover {
-    box-shadow:
-      -8px 10px 20px rgba(0, 0, 0, .07),
-      -26px 26px 38px rgba(0, 0, 0, .06);
-  }
-  .sol-card--dark:hover { box-shadow: -18px 20px 34px rgba(3, 8, 63, .35); }
+  .sol-card { transition: transform .35s ease; }
+  .sol-card:hover { transform: translateY(-8px); } /* só o float: sombra e empilhamento ficam como estão */
 }
 
 .sol-card__icon { width: 56px; height: 56px; }
@@ -1053,6 +1047,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* carrossel contínuo: o JS cria 2 cópias dos itens; a faixa anda 1/3 e recomeça sem emenda */
 .marquee__track {
   display: flex;
+  backface-visibility: hidden; /* iOS: sem isso a faixa animada às vezes deixa de ser pintada */
+  transform: translateZ(0);
   gap: var(--gap-x);
   width: max-content;
   padding-right: var(--gap-x);
@@ -1063,7 +1059,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 @media (hover: hover) and (pointer: fine) {
   .marquee:hover .marquee__track { animation-play-state: paused; }
 }
-@keyframes marquee { to { transform: translateX(calc(-100% / var(--copias, 3))); } }
+@keyframes marquee { to { transform: translate3d(calc(-100% / var(--copias, 3)), 0, 0); } }
 
 .portfolio__item {
   flex: 0 0 var(--item-w);
@@ -1207,7 +1203,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   --item-w: 413px;
   --gap-x: 20px;
   --duracao: 70s; /* mais lento que o portfólio: dá tempo de ler */
-  --inicio: min(0px, calc(50% - 1289px)); /* no Figma começam em x = -329; nunca à direita da borda */
+  /* vw em vez de %: porcentagem numa faixa de width:max-content é cíclica e o WebKit resolve diferente.
+     O recuo é limitado a -329px (valor do Figma em 1920): abaixo disso ele crescia demais
+     (-881px em tablet) e a faixa acabava antes da borda direita no fim do ciclo. */
+  --inicio: clamp(-329px, calc(50vw - 1289px), 0px);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -1921,8 +1920,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   transition:
     opacity .5s ease calc(var(--i, 0) * 90ms),
     translate .5s ease calc(var(--i, 0) * 90ms),
-    transform .35s ease,
-    box-shadow .35s ease;
+    transform .35s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
