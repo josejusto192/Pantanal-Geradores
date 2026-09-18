@@ -271,14 +271,17 @@ if (!reduceMotion.matches && mouseFino.matches) {
       animando = false;
       return;
     }
-    scrollTo({ top: scrollY + restante * 0.14, behavior: 'instant' });
+    scrollTo({ top: scrollY + restante * 0.1, behavior: 'instant' });
     requestAnimationFrame(passoScroll);
   }
+
+  // Firefox e alguns mouses mandam o delta em linhas (1) ou páginas (2), não em pixels
+  const emPixels = (e) => e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
 
   addEventListener('wheel', (e) => {
     if (e.ctrlKey || temScrollProprio(e.target)) return;
     e.preventDefault();
-    alvo = Math.min(limite(), Math.max(0, (animando ? alvo : scrollY) + e.deltaY));
+    alvo = Math.min(limite(), Math.max(0, (animando ? alvo : scrollY) + emPixels(e)));
     if (!animando) {
       animando = true;
       requestAnimationFrame(passoScroll);
@@ -287,4 +290,27 @@ if (!reduceMotion.matches && mouseFino.matches) {
 
   // qualquer outro tipo de rolagem (âncora, teclado, barra) recalibra o alvo
   addEventListener('scroll', () => { if (!animando) alvo = scrollY; }, { passive: true });
+}
+
+/* ==========================================================================
+   Entrada dos cards (soluções, abordagem, benefícios)
+   ========================================================================== */
+const gruposEntrada = ['.solucoes__cards > *', '.abordagem__lista > li', '.beneficios__cards > *'];
+
+if (!reduceMotion.matches) {
+  const observador = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (!entrada.isIntersecting) return;
+      entrada.target.classList.add('entrou');
+      observador.unobserve(entrada.target);
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+  gruposEntrada.forEach((seletor) => {
+    document.querySelectorAll(seletor).forEach((el, i) => {
+      el.classList.add('entra');
+      el.style.setProperty('--i', i); // escalona a entrada dentro do grupo
+      observador.observe(el);
+    });
+  });
 }

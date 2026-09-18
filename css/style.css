@@ -100,6 +100,28 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: linear-gradient(90deg, var(--lime) 0%, var(--lime-light) 38.891%, var(--lime-mid) 100%);
   border: 1px solid rgba(255, 255, 255, .49);
 }
+/* reflexo que cruza o botão de tempos em tempos, para o CTA chamar atenção */
+.btn--primary {
+  position: relative;
+  overflow: hidden;
+}
+.btn--primary::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  bottom: -50%;
+  left: -60%;
+  width: 45%;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .7), transparent);
+  rotate: 12deg;
+  animation: brilho-cta 6s ease-in-out infinite;
+}
+@keyframes brilho-cta {
+  0%, 62% { translate: 0 0; }
+  85%, 100% { translate: 360% 0; }
+}
+
 .btn__icon {
   display: grid;
   flex-shrink: 0; /* sem isso o ícone achata quando o botão fica estreito (form) */
@@ -361,6 +383,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero__thumbs img:nth-child(2) { object-position: 60% 50%; }
 .hero__thumbs img:nth-child(3) { object-position: 35% 50%; }
 .hero__thumbs img + img { margin-left: -9px; }
+/* hover: o avatar sobe um pouco e empurra os vizinhos de leve */
+.hero__thumbs img { position: relative; transition: translate .3s ease, margin-left .3s ease, scale .3s ease; }
+.hero__thumbs img:hover { translate: 0 -5px; scale: 1.06; z-index: 2; }
+.hero__thumbs img:hover + img { margin-left: -2px; }
+.hero__thumbs img:has(+ img:hover) { translate: -5px 0; }
 .hero__proof-text {
   display: flex;
   flex-direction: column;
@@ -488,6 +515,18 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   box-shadow: none;
   color: var(--white);
 }
+/* float suave no hover (transform, não translate: translate é usado pela animação de entrada) */
+@media (hover: hover) and (pointer: fine) {
+  .sol-card { transition: transform .35s ease, box-shadow .35s ease; }
+  .sol-card:hover { transform: translateY(-8px); }
+  .sol-card--light:hover, .sol-card--lime:hover {
+    box-shadow:
+      -8px 10px 20px rgba(0, 0, 0, .07),
+      -26px 26px 38px rgba(0, 0, 0, .06);
+  }
+  .sol-card--dark:hover { box-shadow: -18px 20px 34px rgba(3, 8, 63, .35); }
+}
+
 .sol-card__icon { width: 56px; height: 56px; }
 .sol-card__title { font-size: 24px; font-weight: 700; }
 .sol-card__text { font-size: 16px; opacity: .8; }
@@ -584,6 +623,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .abordagem__lista h3 { font-size: 18px; font-weight: 700; }
 .abordagem__lista p { font-size: 16px; }
 .abordagem__icone {
+  display: grid;
+  place-items: center;
   width: 40px;
   height: 40px;
   flex-shrink: 0;
@@ -1841,9 +1882,18 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .ben-card:nth-child(4) { top: 72px; }
 }
 
+/* Entrada dos cards: a classe .entra vem do JS, só quando o motion não está reduzido */
+.entra { opacity: 0; translate: 0 28px; }
+.entra.entrou {
+  opacity: 1;
+  translate: none;
+  transition: opacity .5s ease, translate .5s ease;
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .selo__texto, .atendimento__selo-texto { animation: none; }
+  .selo__texto, .atendimento__selo-texto, .btn--primary::after { animation: none; }
   .mega { transition: none; }
   .etapas.anima .etapa { opacity: 1; translate: none; transition: none; }
   .marquee .marquee__track { animation: none !important; }
