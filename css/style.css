@@ -919,10 +919,29 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* entrada das etapas (só com JS, para funcionar sem ele também) */
 .etapas.anima .etapa {
   opacity: 0;
-  translate: 0 28px;
-  transition: opacity .6s ease, translate .6s cubic-bezier(.2, .8, .2, 1);
+  translate: 0 56px;
+  transition: opacity .7s ease, translate .8s cubic-bezier(.2, .8, .2, 1);
 }
 .etapas.anima .etapa.is-visivel { opacity: 1; translate: 0; }
+/* as partes entram em sequência, senão o movimento passa despercebido */
+.etapas.anima .etapa__numero {
+  opacity: 0;
+  scale: .4;
+  transition: opacity .35s ease .15s, scale .55s cubic-bezier(.34, 1.56, .64, 1) .15s;
+}
+.etapas.anima .etapa__foto {
+  opacity: 0;
+  translate: 48px 0;
+  transition: opacity .6s ease .1s, translate .8s cubic-bezier(.2, .8, .2, 1) .1s;
+}
+.etapas.anima .etapa__conteudo {
+  opacity: 0;
+  translate: 0 20px;
+  transition: opacity .6s ease .3s, translate .6s cubic-bezier(.2, .8, .2, 1) .3s;
+}
+.etapas.anima .etapa.is-visivel .etapa__numero { opacity: 1; scale: 1; }
+.etapas.anima .etapa.is-visivel .etapa__foto,
+.etapas.anima .etapa.is-visivel .etapa__conteudo { opacity: 1; translate: 0; }
 .etapa__numero {
   position: relative;
   z-index: 1;
@@ -936,6 +955,17 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   color: var(--white);
   font-size: 28px;
   font-weight: 700;
+}
+/* antes da linha chegar o número fica apagado; ao ser alcançado acende com um leve crescer */
+.etapas.anima .etapa.is-visivel .etapa__numero {
+  background: rgba(168, 207, 69, .28);
+  color: rgba(13, 17, 56, .45);
+  transition: background .45s ease, color .45s ease, opacity .35s ease .15s, scale .55s cubic-bezier(.34, 1.4, .64, 1);
+}
+.etapas.anima .etapa.is-alcancada.is-visivel .etapa__numero {
+  background: var(--lime);
+  color: var(--white);
+  scale: 1.08;
 }
 .etapa__conteudo {
   display: flex;
@@ -1887,15 +1917,23 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .entra.entrou {
   opacity: 1;
   translate: none;
-  transition: opacity .5s ease, translate .5s ease;
-  transition-delay: calc(var(--i, 0) * 90ms);
+  /* transform sem atraso: é o que o hover usa e ficava sem transição */
+  transition:
+    opacity .5s ease calc(var(--i, 0) * 90ms),
+    translate .5s ease calc(var(--i, 0) * 90ms),
+    transform .35s ease,
+    box-shadow .35s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .selo__texto, .atendimento__selo-texto, .btn--primary::after { animation: none; }
   .mega { transition: none; }
-  .etapas.anima .etapa { opacity: 1; translate: none; transition: none; }
+  .etapas.anima .etapa,
+  .etapas.anima .etapa.is-visivel .etapa__numero,
+  .etapas.anima .etapa__numero,
+  .etapas.anima .etapa__foto,
+  .etapas.anima .etapa__conteudo { opacity: 1; translate: none; scale: 1; transition: none; }
   .marquee .marquee__track { animation: none !important; }
   .faq-item::details-content { transition: none; }
   .servicos__track { transition: none !important; }

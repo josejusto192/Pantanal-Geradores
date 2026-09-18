@@ -85,12 +85,16 @@ function passo() {
   return track.children[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap);
 }
 
-// leva cards do fim para o começo até cobrir a borda esquerda da tela
+// leva cards do fim para o começo (ou de volta) até cobrir a borda esquerda da tela
 function ajustarAntes() {
-  const margem = track.parentElement.getBoundingClientRect().left + antes * passo();
-  const faltam = Math.max(1, Math.ceil(margem / passo())) - antes;
+  const p = passo();
+  if (!p || !isFinite(p)) return; // layout ainda não pronto: nada a medir
+  // quantos cards cabem entre a borda da tela e o container (a borda não muda com o --serv-antes)
+  const desejado = Math.max(1, Math.ceil(track.parentElement.getBoundingClientRect().left / p));
+  const faltam = desejado - antes;
   for (let i = 0; i < faltam; i++) track.prepend(track.lastElementChild);
-  antes += Math.max(0, faltam);
+  for (let i = 0; i < -faltam; i++) track.append(track.firstElementChild); // sobrou card à esquerda
+  antes = desejado;
   track.style.setProperty('--serv-antes', antes);
 }
 
@@ -156,7 +160,7 @@ document.querySelectorAll('.servicos__btn').forEach((btn) =>
 let redimensionar;
 addEventListener('resize', () => {
   clearTimeout(redimensionar);
-  redimensionar = setTimeout(() => { if (!moving) { ajustarAntes(); markActive(); } }, 200);
+  redimensionar = setTimeout(remedirCarrosseis, 200);
 });
 
 // arrastar para o lado (touch e mouse)
@@ -180,23 +184,45 @@ markActive();
 
 // Faixas contínuas (portfólio e depoimentos): duplica os itens o mínimo necessário para o loop.
 // Poucas cópias = faixa mais curta, que no celular evita falhas de renderização.
-document.querySelectorAll('.marquee').forEach((marquee) => {
-  const track = marquee.querySelector('.marquee__track');
-  const items = [...track.children];
-  const conjunto = track.scrollWidth; // largura de um conjunto, já com o espaçamento final
-  const alvo = Math.max(innerWidth, screen.width || 0); // cobre também o giro da tela
-  const copias = Math.max(2, Math.ceil(alvo / conjunto) + 1);
+let larguraFaixas = 0;
 
-  for (let i = 1; i < copias; i++) {
-    items.forEach((item) => {
-      const copy = item.cloneNode(true);
-      copy.setAttribute('aria-hidden', 'true');
-      track.append(copy);
-    });
-  }
-  track.style.setProperty('--copias', copias);
-  marquee.classList.add('is-ready');
-});
+// remontar reinicia a animação, então no resize só refaz se a largura mudou de fato
+// (no iOS o resize dispara a toda hora quando a barra de endereço aparece/some)
+function montarFaixas(forcar = false) {
+  if (!forcar && innerWidth === larguraFaixas) return;
+  larguraFaixas = innerWidth;
+  document.querySelectorAll('.marquee').forEach((marquee) => {
+    const track = marquee.querySelector('.marquee__track');
+    track.querySelectorAll('[data-copia]').forEach((c) => c.remove()); // remonta do zero
+    const items = [...track.children];
+    const conjunto = track.scrollWidth; // largura de um conjunto, já com o espaçamento final
+    if (!conjunto) return; // layout ainda não pronto
+    const alvo = Math.max(innerWidth, screen.width || 0); // cobre também o giro da tela
+    const copias = Math.max(2, Math.ceil(alvo / conjunto) + 1);
+
+    for (let i = 1; i < copias; i++) {
+      items.forEach((item) => {
+        const copy = item.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        copy.dataset.copia = '1';
+        track.append(copy);
+      });
+    }
+    track.style.setProperty('--copias', copias);
+    marquee.classList.add('is-ready');
+  });
+}
+
+montarFaixas(true);
+
+// as medidas acima dependem da fonte e das imagens; no celular elas chegam depois do script
+function remedirCarrosseis(forcar = false) {
+  if (!moving) { ajustarAntes(); markActive(); }
+  montarFaixas(forcar);
+}
+
+document.fonts.ready.then(() => remedirCarrosseis(true));
+addEventListener('load', () => remedirCarrosseis(true));
 
 // Contato: monta a mensagem com os dados do formulário e abre o WhatsApp
 const WHATSAPP_NUMERO = '5565996479191'; // (65) 99647-9191, o número que está no rodapé do Figma
@@ -229,12 +255,17 @@ if (reduceMotion.matches) {
 
   // mostra as etapas que já entraram na tela e preenche cada trecho da linha
   function animarEtapas() {
-    etapas.forEach((etapa) => {
+    const referencia = innerHeight * 0.62;
+
+    etapas.forEach((etapa, i) => {
       const r = etapa.getBoundingClientRect();
       if (r.top < innerHeight * 0.88 && r.bottom > 0) etapa.classList.add('is-visivel');
+
+      // o número acende quando a linha verde chega nele
+      const n = numeros[i].getBoundingClientRect();
+      etapa.classList.toggle('is-alcancada', n.top + n.height / 2 <= referencia);
     });
 
-    const referencia = innerHeight * 0.62;
     etapas.slice(0, -1).forEach((etapa, i) => {
       const a = numeros[i].getBoundingClientRect();
       const b = numeros[i + 1].getBoundingClientRect();
