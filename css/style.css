@@ -3,6 +3,17 @@
    Design base: 1920px, conteúdo 1280px centralizado.
    ========================================================================== */
 
+/* Jura auto-hospedada: arquivo variável 400-700 (só os pesos usados), latin + latin-ext */
+@font-face {
+  font-family: "Jura";
+  src: url("../assets/fonts/jura-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  /* block (não swap): com a fonte local + preload ela chega em milissegundos;
+     swap mostrava a fonte de sistema antes e trocava na frente do usuário */
+  font-display: block;
+}
+
 :root {
   --navy: #0d1138;
   --navy-deep: #03083f;
@@ -1681,8 +1692,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
   .rodape__colunas { grid-template-columns: repeat(2, 1fr); gap: 48px 40px; }
 
-  .faq__inner { grid-template-columns: 1fr; gap: 40px; }
-  .faq__coluna { margin: 0; }
+  /* empilhado: o CTA sai da coluna e vai para depois do accordion */
+  .faq__inner { grid-template-columns: 1fr; gap: 24px; }
+  .faq__coluna { display: contents; }
+  .faq__accordion { margin-top: 8px; }
+  .faq__cta { order: 1; margin-top: 8px; }
 
   .contato__card { flex-direction: column; align-items: stretch; }
   .contato__visual { flex: none; height: 420px; padding: 48px; }

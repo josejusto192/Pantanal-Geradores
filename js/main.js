@@ -249,3 +249,42 @@ if (reduceMotion.matches) {
   addEventListener('resize', animarEtapas);
   animarEtapas();
 }
+
+/* ==========================================================================
+   Scroll suave (inércia) — só no desktop com mouse; toque e teclado usam o nativo
+   ========================================================================== */
+const mouseFino = matchMedia('(hover: hover) and (pointer: fine)');
+
+if (!reduceMotion.matches && mouseFino.matches) {
+  let alvo = scrollY;
+  let animando = false;
+
+  const limite = () => document.documentElement.scrollHeight - innerHeight;
+  // elementos com rolagem própria (menu, submenu) continuam com o scroll nativo
+  const temScrollProprio = (el) => el instanceof Element && el.closest('.navbar__links, .mega');
+
+  function passoScroll() {
+    const restante = alvo - scrollY;
+    // 'instant' porque html { scroll-behavior: smooth } animaria cada passo e travaria a inércia
+    if (Math.abs(restante) < 0.5) {
+      scrollTo({ top: alvo, behavior: 'instant' });
+      animando = false;
+      return;
+    }
+    scrollTo({ top: scrollY + restante * 0.14, behavior: 'instant' });
+    requestAnimationFrame(passoScroll);
+  }
+
+  addEventListener('wheel', (e) => {
+    if (e.ctrlKey || temScrollProprio(e.target)) return;
+    e.preventDefault();
+    alvo = Math.min(limite(), Math.max(0, (animando ? alvo : scrollY) + e.deltaY));
+    if (!animando) {
+      animando = true;
+      requestAnimationFrame(passoScroll);
+    }
+  }, { passive: false });
+
+  // qualquer outro tipo de rolagem (âncora, teclado, barra) recalibra o alvo
+  addEventListener('scroll', () => { if (!animando) alvo = scrollY; }, { passive: true });
+}
