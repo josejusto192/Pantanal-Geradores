@@ -959,6 +959,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   scale: .4;
   transition: opacity .35s ease .15s, scale .55s cubic-bezier(.34, 1.56, .64, 1) .15s;
 }
+/* a foto entra deslizando 48px da direita; sem o clip esse deslocamento gera
+   rolagem horizontal na página (no iPhone dá para arrastar a tela de lado) */
+.etapas { overflow-x: clip; }
 .etapas.anima .etapa__foto {
   opacity: 0;
   translate: 48px 0;
@@ -1807,6 +1810,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
   /* empilhado: o CTA sai da coluna e vai para depois do accordion */
   .faq__inner { grid-template-columns: 1fr; gap: 24px; }
+  .faq__inner > * { min-width: 0; } /* sem isso o conteúdo mais largo estica a coluna */
   .faq__coluna { display: contents; }
   .faq__accordion { margin-top: 8px; }
   .faq__cta { order: 1; margin-top: 8px; }
@@ -1937,6 +1941,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .atendimento__cidades { align-items: center; }
   .atendimento__linha { justify-content: center; }
   .hero__proof { justify-content: center; }
+}
+
+@media (max-width: 380px) {
+  .faq__cta { padding: 24px 16px; }
+  .faq__cta .btn { padding-left: 14px; font-size: 14px; gap: 10px; }
 }
 
 @media (max-width: 600px) {
