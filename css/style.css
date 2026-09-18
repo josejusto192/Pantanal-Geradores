@@ -160,22 +160,21 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .navbar__links > li > a:hover, .navbar__trigger:hover { color: #6f9a12; }
 .navbar__toggle { display: none; }
 
-/* Contato: botão com preenchimento suave — presente, mas sem competir com os CTAs principais */
+/* Contato: botão do header (Figma 79:494) */
 .navbar__links > li > .navbar__contato {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  padding: 7px 16px;
-  border-radius: 10px;
-  background: rgba(168, 207, 69, .45);
+  padding: 16px 20px;
+  border-radius: 8px;
+  background: var(--lime);
   color: var(--navy);
-  transition: background .2s, color .2s;
+  font-weight: 600;
+  transition: filter .2s;
 }
-.navbar__links > li > .navbar__contato:hover {
-  background: rgba(168, 207, 69, .7);
-  color: var(--navy);
-}
-.navbar__contato img { width: 18px; height: 18px; }
+.navbar__links > li > .navbar__contato:hover { filter: brightness(1.06); color: var(--navy); }
+.navbar__contato img { width: 19px; height: 19px; }
 
 /* Megamenu de Serviços */
 .navbar__servicos { position: relative; }
@@ -1239,11 +1238,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 .contato__form-area {
   flex: 0 0 651px; /* no Figma passa 2px do card e é cortado pela borda */
-  min-width: 0; /* os campos (536px) avançam sobre o padding sem alargar a coluna */
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 36px;
-  padding: 80px;
+  padding: 60px; /* igual nos quatro lados */
 }
 .contato__header {
   display: flex;
@@ -1259,7 +1258,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: flex;
   flex-direction: column;
   gap: 24px;
-  width: 536px; /* no Figma os campos avançam sobre o padding direito */
+  align-self: stretch;
 }
 .campo {
   display: flex;
@@ -1640,8 +1639,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .contato__divisor { top: auto; bottom: 0; right: auto; left: 50%; width: 97.633px; height: 29px; translate: -50% 0; }
   .contato__divisor img { rotate: none; }
   .contato__divisor::after { top: auto; right: 0; left: 0; bottom: -1px; width: auto; height: 2px; }
-  .contato__form-area { flex: none; padding: 56px 48px; }
-  .contato__form { width: auto; }
+  .contato__form-area { flex: none; padding: 48px; }
 
   .atendimento { flex-direction: column; align-items: center; gap: 56px; }
   .atendimento__visual { flex-basis: auto; width: min(630.79px, 100%); }
@@ -1715,7 +1713,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .contato__card { border-radius: 20px; }
   .contato__visual { height: 300px; padding: 28px; border-radius: 20px; }
   .contato__logo { width: 180px; height: 26.6px; object-fit: contain; }
-  .contato__form-area { padding: 40px 20px; gap: 28px; }
+  .contato__form-area { padding: 28px; gap: 28px; }
   .contato__header { gap: 24px; }
   .contato__lead { font-size: 16px; }
   .campo label { font-size: 16px; }
@@ -1752,7 +1750,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 @media (max-width: 600px) {
   /* Benefícios: ao rolar, cada card fixa no topo e o próximo sobe por cima (empilhamento) */
-  .beneficios__cards { display: flex; flex-direction: column; }
+  .beneficios__cards { display: flex; flex-direction: column; padding-bottom: 160px; } /* espaço para o último card travar como os outros */
   .ben-card {
     position: sticky;
     top: 24px;
