@@ -133,17 +133,23 @@ track.addEventListener('click', (e) => { if (dragged) e.preventDefault(); }, tru
 
 markActive();
 
-// Portfólio: duplica os itens de cada faixa (2 cópias) para o loop contínuo e só então liga a animação
+// Faixas contínuas (portfólio e depoimentos): duplica os itens o mínimo necessário para o loop.
+// Poucas cópias = faixa mais curta, que no celular evita falhas de renderização.
 document.querySelectorAll('.marquee').forEach((marquee) => {
   const track = marquee.querySelector('.marquee__track');
   const items = [...track.children];
-  for (let i = 0; i < 2; i++) {
+  const conjunto = track.scrollWidth; // largura de um conjunto, já com o espaçamento final
+  const alvo = Math.max(innerWidth, screen.width || 0); // cobre também o giro da tela
+  const copias = Math.max(2, Math.ceil(alvo / conjunto) + 1);
+
+  for (let i = 1; i < copias; i++) {
     items.forEach((item) => {
       const copy = item.cloneNode(true);
       copy.setAttribute('aria-hidden', 'true');
       track.append(copy);
     });
   }
+  track.style.setProperty('--copias', copias);
   marquee.classList.add('is-ready');
 });
 

@@ -160,6 +160,23 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .navbar__links > li > a:hover, .navbar__trigger:hover { color: #6f9a12; }
 .navbar__toggle { display: none; }
 
+/* Contato: botão com preenchimento suave — presente, mas sem competir com os CTAs principais */
+.navbar__links > li > .navbar__contato {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  border-radius: 10px;
+  background: rgba(168, 207, 69, .45);
+  color: var(--navy);
+  transition: background .2s, color .2s;
+}
+.navbar__links > li > .navbar__contato:hover {
+  background: rgba(168, 207, 69, .7);
+  color: var(--navy);
+}
+.navbar__contato img { width: 18px; height: 18px; }
+
 /* Megamenu de Serviços */
 .navbar__servicos { position: relative; }
 .navbar__trigger {
@@ -657,8 +674,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   translate: -50% 0;
   pointer-events: none;
 }
-.servicos__onda--topo { top: -45px; width: 2426.5px; }
-.servicos__onda--base { bottom: -6.75px; width: 2647.5px; }
+.servicos__onda--topo { top: -45px; width: max(2426.5px, 100vw); }
+.servicos__onda--base { bottom: -6.75px; width: max(2647.5px, 100vw); }
 
 .servicos__header {
   position: relative;
@@ -899,10 +916,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .portfolio__onda {
   position: absolute;
   z-index: 2;
-  left: calc(50% - 1242px); /* no Figma ficam em x = -282 (não centralizadas) */
-  width: 2426.5px;
+  left: 50%;
+  width: max(2426.5px, 100vw + 60px); /* em telas largas acompanha a tela, sem deixar falha nas bordas */
   height: 45px;
   max-width: none;
+  translate: calc(-50% - 28.75px) 0; /* no Figma a onda fica 28.75px à esquerda do centro */
   pointer-events: none;
 }
 .portfolio__onda--topo { bottom: 100%; scale: -1 1; }
@@ -945,8 +963,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .marquee.is-ready .marquee__track { animation: marquee var(--duracao) linear infinite; }
 .marquee--reverse.is-ready .marquee__track { animation-direction: reverse; }
-.marquee:hover .marquee__track { animation-play-state: paused; }
-@keyframes marquee { to { transform: translateX(calc(-100% / 3)); } }
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+}
+@keyframes marquee { to { transform: translateX(calc(-100% / var(--copias, 3))); } }
 
 .portfolio__item {
   flex: 0 0 var(--item-w);
@@ -1579,6 +1599,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .mega__rodape p { max-width: none; align-self: stretch; }
   .mega__btn { align-self: stretch; justify-content: space-between; }
   .navbar__links > li > a { padding: 16px 0; }
+  .navbar__links > li > .navbar__contato { display: flex; justify-content: space-between; margin: 12px 0 4px; padding: 14px 16px; }
   .navbar__links > li + li { border-top: 1px solid rgba(13, 17, 56, .1); }
 
   /* imagem vertical do Figma: azul em cima para o texto, técnico embaixo */
