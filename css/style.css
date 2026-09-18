@@ -1075,8 +1075,9 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   translate: calc(-50% - 28.75px) 0; /* no Figma a onda fica 28.75px à esquerda do centro */
   pointer-events: none;
 }
-.portfolio__onda--topo { bottom: 100%; scale: -1 1; }
-.portfolio__onda--base { top: 100%; scale: 1 -1; }
+/* 1px sobre a seção: sem isso aparece um fio claro na emenda (pior em zoom fracionário) */
+.portfolio__onda--topo { bottom: calc(100% - 1px); scale: -1 1; }
+.portfolio__onda--base { top: calc(100% - 1px); scale: 1 -1; }
 
 .portfolio__header {
   display: flex;
@@ -1566,7 +1567,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: #25d366; /* verde do WhatsApp, ícone branco */
+  background: var(--lime); /* verde da marca, ícone branco */
   box-shadow: 0 10px 24px rgba(13, 17, 56, .28);
   /* pulso discreto: chama o olhar sem ficar piscando o tempo todo */
   animation: zap-pulso 3.2s ease-out infinite;
@@ -1575,15 +1576,15 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 @keyframes zap-pulso {
   0%, 65% {
     transform: scale(1);
-    box-shadow: 0 10px 24px rgba(13, 17, 56, .28), 0 0 0 0 rgba(37, 211, 102, .5);
+    box-shadow: 0 10px 24px rgba(13, 17, 56, .28), 0 0 0 0 rgba(168, 207, 69, .55);
   }
   80% {
     transform: scale(1.07);
-    box-shadow: 0 10px 24px rgba(13, 17, 56, .28), 0 0 0 14px rgba(37, 211, 102, 0);
+    box-shadow: 0 10px 24px rgba(13, 17, 56, .28), 0 0 0 14px rgba(168, 207, 69, 0);
   }
   100% {
     transform: scale(1);
-    box-shadow: 0 10px 24px rgba(13, 17, 56, .28), 0 0 0 0 rgba(37, 211, 102, 0);
+    box-shadow: 0 10px 24px rgba(13, 17, 56, .28), 0 0 0 0 rgba(168, 207, 69, 0);
   }
 }
 
