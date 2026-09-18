@@ -7,7 +7,7 @@
   <meta name="description" content="Manutenção preventiva, corretiva e diagnóstico de grupos geradores. Atendimento 24 horas em todo o Mato Grosso.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Jura:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Jura:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -28,10 +28,81 @@
       </button>
       <ul class="navbar__links" id="nav-links">
         <li><a class="trim" href="#inicio">Início</a></li>
-        <li><a class="trim" href="#servicos">Serviços</a></li>
+        <li class="navbar__servicos">
+          <button class="navbar__trigger trim" type="button" aria-expanded="false" aria-controls="megamenu">
+            Serviços
+            <span class="navbar__chevron" aria-hidden="true"></span>
+          </button>
+
+          <div class="mega" id="megamenu">
+            <ul class="mega__lista">
+            <li>
+              <a class="mega__item" href="#servicos">
+                <span class="mega__icone"><img src="assets/icons/mega-preventiva.svg" alt="" width="24" height="24"></span>
+                <span class="mega__texto">
+                  <strong>Manutenção preventiva</strong>
+                  <small>Inspeções e revisões programadas</small>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="mega__item" href="#servicos">
+                <span class="mega__icone"><img src="assets/icons/mega-corretiva.svg" alt="" width="24" height="24"></span>
+                <span class="mega__texto">
+                  <strong>Manutenção corretiva</strong>
+                  <small>Reparo quando o gerador falha</small>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="mega__item" href="#servicos">
+                <span class="mega__icone"><img src="assets/icons/mega-instalacao.svg" alt="" width="24" height="24"></span>
+                <span class="mega__texto">
+                  <strong>Instalação de geradores</strong>
+                  <small>Implantação completa do sistema</small>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="mega__item" href="#servicos">
+                <span class="mega__icone"><img src="assets/icons/mega-diagnostico.svg" alt="" width="24" height="24"></span>
+                <span class="mega__texto">
+                  <strong>Diagnóstico de falhas</strong>
+                  <small>Encontramos a causa antes do reparo</small>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="mega__item" href="#servicos">
+                <span class="mega__icone"><img src="assets/icons/mega-comando.svg" alt="" width="24" height="24"></span>
+                <span class="mega__texto">
+                  <strong>Transferência e comando</strong>
+                  <small>QTA, comandos e controladores</small>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="mega__item" href="#servicos">
+                <span class="mega__icone"><img src="assets/icons/mega-24h.svg" alt="" width="24" height="24"></span>
+                <span class="mega__texto">
+                  <strong>Assistência 24h</strong>
+                  <small>Atendimento a qualquer hora</small>
+                </span>
+              </a>
+            </li>
+            </ul>
+            <div class="mega__rodape">
+              <p>Não sabe qual serviço precisa? A equipe orienta pelo WhatsApp.</p>
+              <a class="btn btn--primary mega__btn" href="https://wa.me/" data-whatsapp>
+                <span class="trim">Falar com a equipe</span>
+                <span class="btn__icon"><img src="assets/icons/whatsapp.svg" alt="" width="19" height="19"></span>
+              </a>
+            </div>
+          </div>
+        </li>
         <li><a class="trim" href="#projetos">Projetos</a></li>
-        <li><a class="trim" href="#inicio">Início</a></li>
-        <li><a class="trim" href="#inicio">Início</a></li>
+        <li><a class="trim" href="#atendimento">Atendimento</a></li>
+        <li><a class="trim" href="#contato">Contato</a></li>
       </ul>
     </nav>
 
@@ -215,39 +286,74 @@
         <div class="container">
           <div class="servicos__track">
             <article class="serv-card">
-              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501" loading="lazy">
+              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501">
               <p class="serv-card__tag trim">Manutenção · 01</p>
-              <h3 class="serv-card__title trim">Manutenção Preventiva</h3>
-              <p class="serv-card__text trim">Inspeções, revisões e testes para antecipar desgastes e reduzir paradas. Também com planos mensais.</p>
-              <a class="serv-card__link" href="#contato"><span class="trim">Planejar manutenção</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
+              <h3 class="serv-card__title trim">Manutenção preventiva</h3>
+              <p class="serv-card__text trim">Inspeções e revisões periódicas para antecipar desgastes e reduzir paradas. Também com planos mensais.</p>
+              <a class="serv-card__link" href="https://wa.me/" data-whatsapp data-mensagem="Olá! Vim pelo site e gostaria de saber mais sobre Manutenção preventiva."><span class="trim">Saiba mais</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
             </article>
             <article class="serv-card">
-              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501" loading="lazy">
-              <p class="serv-card__tag trim">Manutenção · 01</p>
-              <h3 class="serv-card__title trim">Manutenção Preventiva</h3>
-              <p class="serv-card__text trim">Inspeções, revisões e testes para antecipar desgastes e reduzir paradas. Também com planos mensais.</p>
-              <a class="serv-card__link" href="#contato"><span class="trim">Planejar manutenção</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
+              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501">
+              <p class="serv-card__tag trim">Manutenção · 02</p>
+              <h3 class="serv-card__title trim">Manutenção corretiva</h3>
+              <p class="serv-card__text trim">Investigação da causa e reparos necessários para restabelecer o sistema com segurança.</p>
+              <a class="serv-card__link" href="https://wa.me/" data-whatsapp data-mensagem="Olá! Vim pelo site e gostaria de saber mais sobre Manutenção corretiva."><span class="trim">Saiba mais</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
             </article>
             <article class="serv-card">
-              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501" loading="lazy">
-              <p class="serv-card__tag trim">Manutenção · 01</p>
-              <h3 class="serv-card__title trim">Manutenção Preventiva</h3>
-              <p class="serv-card__text trim">Inspeções, revisões e testes para antecipar desgastes e reduzir paradas. Também com planos mensais.</p>
-              <a class="serv-card__link" href="#contato"><span class="trim">Planejar manutenção</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
+              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501">
+              <p class="serv-card__tag trim">Instalação · 03</p>
+              <h3 class="serv-card__title trim">Instalação de geradores</h3>
+              <p class="serv-card__text trim">Implantação do equipamento e integração com a estrutura elétrica da empresa.</p>
+              <a class="serv-card__link" href="https://wa.me/" data-whatsapp data-mensagem="Olá! Vim pelo site e gostaria de saber mais sobre Instalação de geradores."><span class="trim">Saiba mais</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
             </article>
             <article class="serv-card">
-              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501" loading="lazy">
-              <p class="serv-card__tag trim">Manutenção · 01</p>
-              <h3 class="serv-card__title trim">Manutenção Preventiva</h3>
-              <p class="serv-card__text trim">Inspeções, revisões e testes para antecipar desgastes e reduzir paradas. Também com planos mensais.</p>
-              <a class="serv-card__link" href="#contato"><span class="trim">Planejar manutenção</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
+              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501">
+              <p class="serv-card__tag trim">Diagnóstico · 04</p>
+              <h3 class="serv-card__title trim">Diagnóstico e solução de falhas</h3>
+              <p class="serv-card__text trim">Leitura precisa da falha para orientar a intervenção certa no equipamento.</p>
+              <a class="serv-card__link" href="https://wa.me/" data-whatsapp data-mensagem="Olá! Vim pelo site e gostaria de saber mais sobre Diagnóstico e solução de falhas."><span class="trim">Saiba mais</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
             </article>
             <article class="serv-card">
-              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501" loading="lazy">
-              <p class="serv-card__tag trim">Manutenção · 01</p>
-              <h3 class="serv-card__title trim">Manutenção Preventiva</h3>
-              <p class="serv-card__text trim">Inspeções, revisões e testes para antecipar desgastes e reduzir paradas. Também com planos mensais.</p>
-              <a class="serv-card__link" href="#contato"><span class="trim">Planejar manutenção</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
+              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501">
+              <p class="serv-card__tag trim">Inspeção · 05</p>
+              <h3 class="serv-card__title trim">Revisão e inspeção</h3>
+              <p class="serv-card__text trim">Avaliação das condições do equipamento para antecipar desgastes e prioridades.</p>
+              <a class="serv-card__link" href="https://wa.me/" data-whatsapp data-mensagem="Olá! Vim pelo site e gostaria de saber mais sobre Revisão e inspeção."><span class="trim">Saiba mais</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
+            </article>
+            <article class="serv-card">
+              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501">
+              <p class="serv-card__tag trim">Sistemas · 06</p>
+              <h3 class="serv-card__title trim">Transferência e comando</h3>
+              <p class="serv-card__text trim">QTA, comandos e automação para integrar a geração à rotina da empresa.</p>
+              <a class="serv-card__link" href="https://wa.me/" data-whatsapp data-mensagem="Olá! Vim pelo site e gostaria de saber mais sobre Transferência e comando."><span class="trim">Saiba mais</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
+            </article>
+            <article class="serv-card">
+              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501">
+              <p class="serv-card__tag trim">Manutenção · 07</p>
+              <h3 class="serv-card__title trim">Elétrica e eletrônica</h3>
+              <p class="serv-card__text trim">Cuidados nos componentes elétricos e eletrônicos que sustentam o sistema.</p>
+              <a class="serv-card__link" href="https://wa.me/" data-whatsapp data-mensagem="Olá! Vim pelo site e gostaria de saber mais sobre Elétrica e eletrônica."><span class="trim">Saiba mais</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
+            </article>
+            <article class="serv-card">
+              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501">
+              <p class="serv-card__tag trim">Testes · 08</p>
+              <h3 class="serv-card__title trim">Testes de funcionamento e carga</h3>
+              <p class="serv-card__text trim">Validação do desempenho e da resposta do equipamento sob carga.</p>
+              <a class="serv-card__link" href="https://wa.me/" data-whatsapp data-mensagem="Olá! Vim pelo site e gostaria de saber mais sobre Testes de funcionamento e carga."><span class="trim">Saiba mais</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
+            </article>
+            <article class="serv-card">
+              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501">
+              <p class="serv-card__tag trim">Assistência · 09</p>
+              <h3 class="serv-card__title trim">Assistência e atendimento emergencial</h3>
+              <p class="serv-card__text trim">Atendimento técnico para ocorrências e necessidades urgentes em todo o Mato Grosso.</p>
+              <a class="serv-card__link" href="https://wa.me/" data-whatsapp data-mensagem="Olá! Vim pelo site e gostaria de saber mais sobre Assistência e atendimento emergencial."><span class="trim">Saiba mais</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
+            </article>
+            <article class="serv-card">
+              <img class="serv-card__img" src="assets/img/servico.jpg" alt="" width="464" height="501">
+              <p class="serv-card__tag trim">Atualização · 10</p>
+              <h3 class="serv-card__title trim">Retrofit de controladores</h3>
+              <p class="serv-card__text trim">Atualização de controladores para recuperar desempenho e ampliar a vida útil do sistema.</p>
+              <a class="serv-card__link" href="https://wa.me/" data-whatsapp data-mensagem="Olá! Vim pelo site e gostaria de saber mais sobre Retrofit de controladores."><span class="trim">Saiba mais</span><img src="assets/icons/seta-branca.svg" alt="" width="16" height="16"></a>
             </article>
           </div>
         </div>
@@ -502,8 +608,188 @@
       </div>
     </section>
 
-    <!-- Próximas seções entram aqui -->
+    <!-- Seção 10: Contato -->
+    <section class="contato" id="contato">
+      <div class="container contato__card">
+        <div class="contato__visual">
+          <img class="contato__foto" src="assets/img/thumb-1.jpg" alt="" width="629" height="925" loading="lazy">
+          <img class="contato__logo" src="assets/icons/logo-pantanal-branco.svg" alt="Pantanal Geradores" width="247" height="37">
+          <span class="contato__divisor" aria-hidden="true"><img src="assets/icons/divisor-contato.svg" alt="" width="98" height="29"></span>
+        </div>
+
+        <div class="contato__form-area">
+          <div class="contato__header">
+            <p class="kicker kicker--green trim">Contato</p>
+            <h2 class="section-title trim">Seu próximo passo, com orientação.</h2>
+          </div>
+          <p class="contato__lead trim">Um reparo que não pode esperar ou uma manutenção para planejar? Informe o serviço e a cidade que a equipe já abre o WhatsApp com tudo pronto.</p>
+
+          <form class="contato__form" id="form-contato">
+            <div class="campo">
+              <label class="trim" for="campo-nome">Qual o seu nome?</label>
+              <input id="campo-nome" name="nome" type="text" placeholder="Seu nome" autocomplete="name" required>
+            </div>
+            <div class="campo">
+              <label class="trim" for="campo-servico">O que você precisa?</label>
+              <input id="campo-servico" name="servico" type="text" placeholder="Quero orientação técnica" required>
+            </div>
+            <div class="campo">
+              <label class="trim" for="campo-cidade">Qual a sua cidade?</label>
+              <input id="campo-cidade" name="cidade" type="text" placeholder="Ex.: Cuiabá" autocomplete="address-level2" required>
+            </div>
+            <button class="btn btn--primary btn--full" type="submit">
+              <span class="trim">Conversar no WhatsApp</span>
+              <span class="btn__icon"><img src="assets/icons/whatsapp.svg" alt="" width="19" height="19"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 11: FAQ -->
+    <section class="faq" id="faq">
+      <img class="faq__onda" src="assets/icons/onda-faq.svg" alt="" width="1921" height="44" aria-hidden="true">
+      <div class="container faq__inner">
+        <div class="faq__coluna">
+          <div class="faq__header">
+            <p class="kicker kicker--green trim">Perguntas frequentes</p>
+            <h2 class="section-title trim">O que você precisa saber.</h2>
+          </div>
+          <p class="faq__lead trim">Algumas respostas para ajudar você a planejar o atendimento com mais tranquilidade.</p>
+
+          <div class="faq__cta">
+            <h3 class="trim">Ainda com dúvidas?</h3>
+            <p class="trim">Fale com nossa equipe pelo WhatsApp. Explique o que você precisa e nós orientamos o atendimento de forma rápida e direta.</p>
+            <a class="btn btn--primary" href="https://wa.me/" data-whatsapp>
+              <span class="trim">Chamar no WhatsApp</span>
+              <span class="btn__icon"><img src="assets/icons/whatsapp.svg" alt="" width="19" height="19"></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="faq__accordion">
+          <details class="faq-item" open name="faq">
+            <summary>
+              <span class="faq-item__pergunta">Vocês atendem fora de Cuiabá?</span>
+              <span class="faq-item__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-item__resposta"><p>Sim. A Pantanal atende em todo o Mato Grosso. Informe sua cidade e a necessidade do equipamento para a equipe orientar o atendimento e combinar os detalhes do deslocamento.</p></div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary>
+              <span class="faq-item__pergunta">Meu gerador apresentou uma falha. Como pedir atendimento?</span>
+              <span class="faq-item__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-item__resposta"><p>Fale com a equipe pelo WhatsApp e descreva o que aconteceu. Avaliamos os sinais do equipamento e orientamos os próximos passos do atendimento.</p></div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary>
+              <span class="faq-item__pergunta">É possível contratar manutenção periódica?</span>
+              <span class="faq-item__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-item__resposta"><p>Sim. A manutenção preventiva pode ser contratada em planos mensais, com inspeções, revisões e testes programados.</p></div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary>
+              <span class="faq-item__pergunta">O que preciso enviar para solicitar um orçamento?</span>
+              <span class="faq-item__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-item__resposta"><p>Informe o modelo do grupo gerador, o serviço desejado e a cidade. Com esses dados a equipe prepara o orçamento.</p></div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary>
+              <span class="faq-item__pergunta">Vocês também trabalham com instalação e quadros de transferência?</span>
+              <span class="faq-item__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-item__resposta"><p>Sim. Fazemos a implantação de grupos geradores e a integração elétrica com QTA, comandos e controladores.</p></div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary>
+              <span class="faq-item__pergunta">Como são definidos o valor e o prazo do serviço?</span>
+              <span class="faq-item__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-item__resposta"><p>O valor e o prazo dependem do serviço, do porte do equipamento e da cidade de atendimento. Tudo é combinado antes da execução.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
   </main>
+
+  <!-- Seção 12: Rodapé -->
+  <footer class="rodape" id="rodape">
+    <div class="container rodape__conteudo">
+      <div class="rodape__colunas">
+        <div class="rodape__marca">
+          <a class="rodape__logo" href="#inicio" aria-label="Pantanal Geradores - início">
+            <img src="assets/icons/logo-pantanal-branco.svg" alt="Pantanal Geradores" width="260" height="39">
+          </a>
+          <p class="rodape__descricao">Da manutenção à instalação, cuidado com o<br> que mantém sua empresa funcionando.</p>
+          <p class="rodape__estado">Em todo o Mato Grosso.</p>
+          <ul class="rodape__redes">
+            <li><a href="https://instagram.com/" aria-label="Instagram" target="_blank" rel="noopener"><img src="assets/icons/rede-instagram.svg" alt="" width="26" height="26"></a></li>
+            <li><a href="https://facebook.com/" aria-label="Facebook" target="_blank" rel="noopener"><img src="assets/icons/rede-facebook.svg" alt="" width="26" height="26"></a></li>
+            <li><a href="https://wa.me/5565996479191" aria-label="WhatsApp" target="_blank" rel="noopener"><img src="assets/icons/rede-whatsapp.svg" alt="" width="26" height="26"></a></li>
+          </ul>
+        </div>
+
+        <nav class="rodape__nav" aria-label="Explore">
+          <h2>Explore</h2>
+          <ul>
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#servicos">Nossos serviços</a></li>
+            <li><a href="#projetos">Projetos realizados</a></li>
+            <li><a href="#atendimento">Área de atendimento</a></li>
+            <li><a href="#depoimentos">Depoimentos</a></li>
+            <li><a href="#faq">Dúvidas frequentes</a></li>
+          </ul>
+        </nav>
+
+        <nav class="rodape__nav" aria-label="Serviços">
+          <h2>Serviços</h2>
+          <ul>
+            <li><a href="#servicos">Manutenção preventiva</a></li>
+            <li><a href="#servicos">Manutenção corretiva</a></li>
+            <li><a href="#servicos">Instalação de geradores</a></li>
+            <li><a href="#servicos">Diagnóstico de falhas</a></li>
+            <li><a href="#servicos">Transferência e comando</a></li>
+            <li><a href="#servicos">Assistência 24h</a></li>
+          </ul>
+        </nav>
+
+        <div class="rodape__contato">
+          <h2>Contato</h2>
+          <ul>
+            <li><a href="https://wa.me/5565996479191"><span class="rodape__contato-icone"><img src="assets/icons/contato-whatsapp.svg" alt="" width="25" height="25"></span>
+              <span class="rodape__contato-textos">
+                <span class="rodape__contato-label">WhatsApp</span>
+                <span class="rodape__contato-valor">(65) 99647-9191</span>
+              </span></a></li>
+            <li><a href="tel:+5565996479191"><span class="rodape__contato-icone"><img src="assets/icons/contato-telefone.svg" alt="" width="25" height="25"></span>
+              <span class="rodape__contato-textos">
+                <span class="rodape__contato-label">Telefone</span>
+                <span class="rodape__contato-valor">(65) 99647-9191</span>
+              </span></a></li>
+            <li><a href="mailto:pantanalgeradores@gmail.com"><span class="rodape__contato-icone"><img src="assets/icons/contato-email.svg" alt="" width="25" height="25"></span>
+              <span class="rodape__contato-textos">
+                <span class="rodape__contato-label">E-mail</span>
+                <span class="rodape__contato-valor">pantanalgeradores@gmail.com</span>
+              </span></a></li>
+            <li><span class="rodape__contato-estatico"><span class="rodape__contato-icone"><img src="assets/icons/contato-local.svg" alt="" width="25" height="25"></span>
+              <span class="rodape__contato-textos">
+                <span class="rodape__contato-label">Atendimento</span>
+                <span class="rodape__contato-valor">Todo o Mato Grosso · 24 horas</span>
+              </span></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rodape__barra">
+        <p>© Pantanal Geradores. Todos os direitos reservados.</p>
+        <a class="rodape__topo" href="#inicio">Voltar ao início <img src="assets/icons/seta-topo.svg" alt="" width="18" height="18"></a>
+      </div>
+    </div>
+  </footer>
 
   <script src="js/main.js"></script>
 </body>

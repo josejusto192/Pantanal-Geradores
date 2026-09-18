@@ -16,6 +16,36 @@ navbar.querySelectorAll('.navbar__links a').forEach((link) =>
   })
 );
 
+// Megamenu de Serviços: abre no hover (desktop), no clique e com o teclado
+const servicosItem = document.querySelector('.navbar__servicos');
+const servicosTrigger = servicosItem.querySelector('.navbar__trigger');
+const telaGrande = matchMedia('(min-width: 1101px)');
+let megaTimer;
+
+function abrirMega(abrir) {
+  servicosItem.classList.toggle('is-open', abrir);
+  servicosTrigger.setAttribute('aria-expanded', abrir);
+}
+
+servicosItem.addEventListener('mouseenter', () => {
+  if (!telaGrande.matches) return;
+  clearTimeout(megaTimer);
+  megaTimer = setTimeout(() => abrirMega(true), 80);
+});
+servicosItem.addEventListener('mouseleave', () => {
+  if (!telaGrande.matches) return;
+  clearTimeout(megaTimer);
+  megaTimer = setTimeout(() => abrirMega(false), 180);
+});
+servicosTrigger.addEventListener('click', () => abrirMega(!servicosItem.classList.contains('is-open')));
+servicosItem.addEventListener('focusin', () => abrirMega(true));
+servicosItem.addEventListener('focusout', (e) => {
+  if (!servicosItem.contains(e.relatedTarget)) abrirMega(false);
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') abrirMega(false); });
+document.addEventListener('click', (e) => { if (!servicosItem.contains(e.target)) abrirMega(false); });
+servicosItem.querySelectorAll('.mega a').forEach((a) => a.addEventListener('click', () => abrirMega(false)));
+
 // Serviços: carrossel infinito. O DOM é rotacionado (1º card vai pro fim e vice-versa),
 // então o card "anterior" sempre aparece cortado à esquerda, como no Figma.
 const track = document.querySelector('.servicos__track');
@@ -46,6 +76,7 @@ function markActive(pos = 1) { // pos = posição no DOM do card alinhado ao con
 function moveCarousel(steps) {
   if (!steps || moving) return;
   moving = true;
+  track.classList.add('is-moving');
   const style = getComputedStyle(track);
   const shift = Math.abs(steps) * (track.children[0].offsetWidth + parseFloat(style.columnGap));
   const duration = reduceMotion.matches ? 0 : 500;
@@ -74,6 +105,7 @@ function moveCarousel(steps) {
       track.style.transform = '';
     }
     markActive();
+    track.classList.remove('is-moving');
     moving = false;
   }, duration);
 }
@@ -116,11 +148,19 @@ document.querySelectorAll('.marquee').forEach((marquee) => {
 });
 
 // Contato: monta a mensagem com os dados do formulário e abre o WhatsApp
-const WHATSAPP_NUMERO = ''; // PENDENTE: só dígitos, com DDI e DDD (ex.: 5565999999999). Vazio = o WhatsApp pede o contato.
+const WHATSAPP_NUMERO = '5565996479191'; // (65) 99647-9191, o número que está no rodapé do Figma
 document.getElementById('form-contato').addEventListener('submit', (e) => {
   e.preventDefault();
   const dados = new FormData(e.currentTarget);
   const campo = (nome) => String(dados.get(nome)).trim();
   const texto = `Olá! Meu nome é ${campo('nome')}.\nPreciso de: ${campo('servico')}\nCidade: ${campo('cidade')}`;
   window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
+});
+
+// Links diretos para o WhatsApp (usam o mesmo número do formulário)
+document.querySelectorAll('[data-whatsapp]').forEach((link) => {
+  const texto = link.dataset.mensagem || 'Olá! Vim pelo site e gostaria de falar com a equipe da Pantanal Geradores.';
+  link.href = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(texto)}`;
+  link.target = '_blank';
+  link.rel = 'noopener';
 });

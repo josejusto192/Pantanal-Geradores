@@ -20,7 +20,7 @@
 /* Reset */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; interpolate-size: allow-keywords; } /* permite animar altura auto (acordeão) */
 body {
   font-family: var(--font);
   color: var(--navy);
@@ -156,9 +156,129 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-size: 20px;
   white-space: nowrap;
 }
-.navbar__links a { display: block; transition: color .2s; }
-.navbar__links a:hover { color: #6f9a12; }
+.navbar__links > li > a { display: block; transition: color .2s; }
+.navbar__links > li > a:hover, .navbar__trigger:hover { color: #6f9a12; }
 .navbar__toggle { display: none; }
+
+/* Megamenu de Serviços */
+.navbar__servicos { position: relative; }
+.navbar__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 20px;
+  color: var(--navy);
+  transition: color .2s;
+}
+.navbar__chevron {
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  border-radius: 1px;
+  rotate: 45deg;
+  translate: 0 -2px;
+  transition: rotate .25s, translate .25s;
+}
+.navbar__trigger[aria-expanded="true"] .navbar__chevron { rotate: -135deg; translate: 0 2px; }
+
+.mega {
+  position: absolute;
+  z-index: 20;
+  white-space: normal; /* o menu usa nowrap; aqui os textos precisam quebrar */
+  top: calc(100% + 18px);
+  left: 50%;
+  width: min(760px, 100vw - 40px);
+  padding: 24px;
+  border: 1px solid var(--bg-light);
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 24px 60px rgba(13, 17, 56, .18), 0 2px 8px rgba(13, 17, 56, .06);
+  opacity: 0;
+  visibility: hidden;
+  scale: .98;
+  translate: -50% -8px;
+  transition: opacity .2s, scale .2s, translate .2s, visibility .2s;
+}
+/* ponte invisível: o ponteiro atravessa o espaço até o painel sem fechar o menu */
+.mega::before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: 0;
+  right: 0;
+  height: 18px;
+}
+/* setinha apontando para "Serviços" */
+.mega::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--bg-light);
+  border-width: 1px 0 0 1px;
+  border-radius: 3px 0 0 0;
+  background: var(--white);
+  rotate: 45deg;
+  translate: -50% 0;
+}
+.navbar__servicos.is-open .mega {
+  opacity: 1;
+  visibility: visible;
+  scale: 1;
+  translate: -50% 0;
+}
+.mega__lista {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 12px;
+}
+.mega__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  transition: background .2s;
+}
+.mega__item:hover { background: var(--bg-light); }
+.mega__icone {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(168, 207, 69, .18);
+  transition: background .2s;
+}
+.mega__item:hover .mega__icone { background: var(--lime); }
+.mega__icone img { width: 24px; height: 24px; }
+.mega__texto { display: flex; flex-direction: column; gap: 4px; }
+.mega__texto strong { font-size: 16px; font-weight: 600; color: var(--navy); }
+.mega__texto small { font-size: 13px; color: rgba(13, 17, 56, .65); }
+
+.mega__rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 16px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: var(--navy);
+  color: var(--bg-light);
+}
+.mega__rodape p { max-width: 330px; font-size: 14px; }
+.mega__btn {
+  min-height: 48px;
+  padding: 4px 4px 4px 16px;
+  font-size: 14px;
+  gap: 14px;
+}
+.mega__btn .btn__icon { width: 38px; height: 38px; }
 
 /* Conteúdo */
 .hero__inner {
@@ -323,6 +443,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 @media (min-width: 1321px) {
   /* no Figma essas seções têm 1281px de largura (1px além do container) */
   .solucoes__cards, .servicos__nav, .etapas { margin-right: -1px; }
+  .faq__inner { translate: 1px 0; } /* no Figma a seção vai de 321 a 1601 */
 }
 .sol-card {
   display: flex;
@@ -526,6 +647,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .kicker--green { color: #63852a; }
 
 .servicos {
+  /* recorta só na horizontal: as ondas passam de 2400px de largura, mas precisam vazar em cima e embaixo */
+  overflow-x: clip;
+  overflow-y: visible;
   --serv-card-w: 413px;
   --serv-gap: 21px;
   position: relative;
@@ -583,6 +707,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .servicos__carrossel { overflow: hidden; }
 .servicos__track {
   display: flex;
+  will-change: transform;
   gap: var(--serv-gap);
   /* um card fica "antes" do container, aparecendo cortado à esquerda */
   margin-left: calc(-1 * (var(--serv-card-w) + var(--serv-gap)));
@@ -613,6 +738,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   width: 112.35%;
   height: 100%;
   max-width: none;
+  object-fit: cover; /* corta em vez de esticar */
 }
 .serv-card img, .serv-card a { -webkit-user-drag: none; }
 .serv-card::before,
@@ -628,6 +754,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: linear-gradient(rgba(13, 17, 56, 0) 35.581%, rgba(13, 17, 56, .76) 64.761%, var(--navy));
   opacity: 0;
 }
+/* enquanto a faixa desliza, os cards passam sob o ponteiro: sem isso o hover piscava */
+.servicos__track.is-moving { pointer-events: none; }
 /* card em destaque (o primeiro do container) e hover usam o gradiente mais claro do Figma */
 .serv-card.is-active::before, .serv-card:hover::before { opacity: 0; }
 .serv-card.is-active::after, .serv-card:hover::after { opacity: 1; }
@@ -771,6 +899,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 .portfolio {
   position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -1058,6 +1188,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   width: 100%;
   height: 115.34%;
   max-width: none;
+  object-fit: cover; /* corta em vez de esticar */
 }
 .contato__visual::after {
   content: "";
@@ -1075,6 +1206,17 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   width: 29px;
   height: 97.633px;
   translate: 0 -50%;
+}
+.contato__divisor::after {
+  /* a foto e o recorte terminam na mesma coordenada; em telas/zooms fracionários sobrava
+     meio pixel escuro da foto. Esta faixa branca cobre a emenda. */
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -1px;
+  width: 2px;
+  background: var(--white);
 }
 .contato__divisor img {
   position: absolute;
@@ -1142,6 +1284,246 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .btn--full { width: 100%; justify-content: space-between; }
 
 /* ==========================================================================
+   Seção 11 — FAQ
+   ========================================================================== */
+.faq {
+  position: relative;
+  padding-block: 35px 80.5px;
+  background: var(--bg-light);
+}
+.faq__onda {
+  position: absolute;
+  top: -43px;
+  left: 0;
+  width: 100%;
+  height: 44px;
+  rotate: 180deg;
+}
+.faq__inner {
+  display: grid;
+  grid-template-columns: 413px 739px;
+  justify-content: space-between;
+  align-items: start;
+}
+.faq__coluna {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 36px;
+  margin-top: 2px; /* no Figma a coluna começa 2px abaixo do accordion */
+}
+.faq__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 37px;
+}
+.faq__lead {
+  font-size: 18px;
+  color: rgba(13, 17, 56, .8);
+}
+.faq__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 32px;
+  border-radius: 20px;
+  background: var(--white);
+}
+.faq__cta h3 { font-size: 20px; font-weight: 600; }
+.faq__cta p { font-size: 18px; color: rgba(13, 17, 56, .8); }
+
+.faq__accordion {
+  border: 1px solid var(--bg-light);
+  border-radius: 24px;
+  background: var(--white);
+  overflow: hidden;
+}
+.faq-item + .faq-item { border-top: .8px solid var(--bg-light); }
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 88px;
+  padding: 28px 30px;
+  cursor: pointer;
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item__pergunta {
+  font-size: 17px;
+  line-height: 23.8px; /* 140% no Figma */
+  font-weight: 600;
+  color: var(--navy);
+}
+/* botão + / − */
+.faq-item__toggle {
+  position: relative;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background: var(--bg-light);
+  transition: background .25s;
+}
+.faq-item__toggle::before,
+.faq-item__toggle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 2px;
+  background: var(--navy);
+  translate: -50% -50%;
+  transition: rotate .25s;
+}
+.faq-item__toggle::after { rotate: 90deg; }
+.faq-item[open] .faq-item__toggle { background: var(--lime); }
+.faq-item[open] .faq-item__toggle::after { rotate: 0deg; }
+
+.faq-item__resposta { padding: 0 30px 28px; }
+.faq-item__resposta p {
+  max-width: 621px;
+  font-size: 15px;
+  line-height: 25.5px; /* 170% no Figma */
+  color: #596f7f;
+}
+/* abre e fecha com animação onde o navegador suporta */
+.faq-item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size .3s ease, content-visibility .3s allow-discrete;
+}
+.faq-item[open]::details-content { block-size: auto; }
+
+/* ==========================================================================
+   Seção 12 — Rodapé
+   ========================================================================== */
+.rodape {
+  padding: 80px 32px;
+  border-radius: 24px 24px 0 0;
+  background: var(--navy);
+  color: var(--bg-light);
+}
+.rodape__colunas {
+  display: grid;
+  grid-template-columns: 340.4px 226.9px 226.9px 317.7px;
+  justify-content: space-between;
+  padding-bottom: 48px;
+}
+.rodape__marca {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18.4px;
+}
+.rodape__logo img { width: 260px; height: 38.5px; }
+.rodape__descricao {
+  padding-block: 4.85px .75px;
+  font-size: 15px;
+  line-height: 25.5px;
+}
+.rodape__estado { font-size: 13px; color: var(--lime); }
+.rodape__redes {
+  display: flex;
+  gap: 10px;
+  padding-top: 3.6px;
+}
+.rodape__redes a {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--lime);
+  transition: filter .2s;
+}
+.rodape__redes a:hover { filter: brightness(1.08); }
+.rodape__redes img { width: 26px; height: 26px; }
+
+.rodape h2 {
+  margin-bottom: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 1.04px;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.rodape__nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 13.6px;
+  font-size: 14px;
+  line-height: 16.8px;
+  transition: color .2s;
+}
+.rodape__nav a:hover { color: var(--lime); }
+
+.rodape__contato ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rodape__contato a,
+.rodape__contato-estatico {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding-block: 2px;
+}
+.rodape__contato-icone {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--lime);
+}
+.rodape__contato-icone img { width: 25px; height: 25px; }
+.rodape__contato-textos { display: flex; flex-direction: column; }
+.rodape__contato-label {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17.5px;
+  color: #dbe3ee;
+}
+.rodape__contato-valor {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16.25px;
+  color: #94a3b6;
+  transition: color .2s;
+}
+.rodape__contato a:hover .rodape__contato-valor { color: var(--lime); }
+
+.rodape__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 72px 20px 0;
+  border-top: .8px solid rgba(255, 255, 255, .14);
+}
+.rodape__barra p { font-size: 12px; line-height: 19.2px; }
+.rodape__topo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-block: 13px;
+  font-size: 12px;
+  line-height: 13.6px;
+  transition: color .2s;
+}
+.rodape__topo:hover { color: var(--lime); }
+.rodape__topo img { width: 18px; height: 18px; }
+
+/* ==========================================================================
    Responsivo
    ========================================================================== */
 @media (max-width: 1320px) {
@@ -1186,8 +1568,31 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     display: none;
   }
   .navbar.is-open .navbar__links { display: flex; }
-  .navbar__links a { padding: 16px 0; }
-  .navbar__links li + li { border-top: 1px solid rgba(13, 17, 56, .1); }
+
+  /* no mobile o megamenu vira uma lista que expande dentro do menu */
+  .navbar__servicos { width: 100%; }
+  .navbar__trigger { width: 100%; justify-content: space-between; padding: 16px 0; }
+  .mega {
+    position: static;
+    display: none;
+    width: auto;
+    padding: 0 0 12px;
+    border-radius: 14px;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    scale: 1;
+    translate: none;
+  }
+  .navbar__servicos.is-open .mega { display: block; translate: none; }
+  .mega::before, .mega::after { display: none; }
+  .mega__lista { grid-template-columns: 1fr; gap: 0; }
+  .mega__item { padding: 10px 0; }
+  .mega__rodape { flex-direction: column; align-items: flex-start; margin-top: 8px; }
+  .mega__rodape p { max-width: none; align-self: stretch; }
+  .mega__btn { align-self: stretch; justify-content: space-between; }
+  .navbar__links > li > a { padding: 16px 0; }
+  .navbar__links > li + li { border-top: 1px solid rgba(13, 17, 56, .1); }
 
   .hero__content { max-width: 60%; }
 
@@ -1211,10 +1616,16 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
   .etapa { column-gap: 32px; }
 
+  .rodape__colunas { grid-template-columns: repeat(2, 1fr); gap: 48px 40px; }
+
+  .faq__inner { grid-template-columns: 1fr; gap: 40px; }
+  .faq__coluna { margin: 0; }
+
   .contato__card { flex-direction: column; align-items: stretch; }
   .contato__visual { flex: none; height: 420px; padding: 48px; }
   .contato__divisor { top: auto; bottom: 0; right: auto; left: 50%; width: 97.633px; height: 29px; translate: -50% 0; }
   .contato__divisor img { rotate: none; }
+  .contato__divisor::after { top: auto; right: 0; left: 0; bottom: -1px; width: auto; height: 2px; }
   .contato__form-area { flex: none; padding: 56px 48px; }
   .contato__form { width: auto; }
 
@@ -1270,6 +1681,22 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .depoimentos__header { gap: 24px; }
   .depoimentos__lead { font-size: 16px; }
   .depoimentos__faixas { --item-w: 300px; --gap-x: 12px; --duracao: 50s; --inicio: var(--gutter); gap: 12px; }
+
+  .rodape { padding: 56px 20px; border-radius: 20px 20px 0 0; }
+  .rodape__colunas { grid-template-columns: 1fr; gap: 40px; padding-bottom: 32px; }
+  .rodape__logo img { width: 220px; height: 32.6px; }
+  .rodape__barra { flex-direction: column; align-items: flex-start; gap: 8px; padding: 20px 0; }
+  .rodape__descricao br { display: none; }
+
+  .faq { padding-block: 80px; }
+  .faq__coluna { gap: 28px; }
+  .faq__header { gap: 24px; }
+  .faq__lead { font-size: 16px; }
+  .faq__cta { padding: 28px 24px; }
+  .faq__cta p { font-size: 16px; }
+  .faq-item summary { min-height: 0; padding: 20px; gap: 16px; }
+  .faq-item__pergunta { font-size: 16px; }
+  .faq-item__resposta { padding: 0 20px 20px; }
 
   .contato { padding-bottom: 80px; }
   .contato__card { border-radius: 20px; }
@@ -1335,5 +1762,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   html { scroll-behavior: auto; }
   .selo__texto, .atendimento__selo-texto { animation: none; }
   .marquee .marquee__track { animation: none !important; }
+  .faq-item::details-content { transition: none; }
   .servicos__track { transition: none !important; }
 }
