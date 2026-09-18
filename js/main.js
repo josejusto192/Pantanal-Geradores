@@ -17,6 +17,22 @@ navbar.querySelectorAll('.navbar__links a').forEach((link) =>
   })
 );
 
+// Header: ao passar da barra verde, o menu fica fixo no topo
+const topbar = document.querySelector('.topbar');
+const hero = document.querySelector('.hero');
+
+function ajustarNavbar() {
+  const fixa = scrollY > topbar.offsetHeight;
+  if (fixa === navbar.classList.contains('is-fixa')) return;
+  navbar.classList.toggle('is-fixa', fixa);
+  // o menu sai do fluxo ao fixar; o padding do hero segura o lugar dele
+  hero.style.paddingTop = fixa ? navbar.offsetHeight + 8 + 'px' : '';
+}
+
+addEventListener('scroll', ajustarNavbar, { passive: true });
+addEventListener('resize', ajustarNavbar);
+ajustarNavbar();
+
 // Megamenu de Serviços: abre no hover (desktop), no clique e com o teclado
 const servicosItem = document.querySelector('.navbar__servicos');
 const servicosTrigger = servicosItem.querySelector('.navbar__trigger');

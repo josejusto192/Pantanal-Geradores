@@ -147,6 +147,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px 20px;
+  flex-wrap: wrap;
   padding: 8px var(--gutter);
   background: var(--lime);
   color: var(--white);
@@ -158,6 +160,27 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* ==========================================================================
    Seção 1 — Header + Hero
    ========================================================================== */
+/* com o menu fixo, as âncoras precisam parar abaixo dele */
+section[id], header[id], footer[id] { scroll-margin-top: 110px; }
+
+/* ao rolar, o menu descola e fica fixo no topo (o JS marca .is-fixa) */
+.navbar.is-fixa {
+  position: fixed;
+  top: 8px;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, .96); /* fixo passa por cima do conteúdo: precisa ficar legível */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 30px rgba(13, 17, 56, .18);
+  animation: navbar-desce .28s ease;
+}
+@keyframes navbar-desce {
+  from { translate: 0 -14px; opacity: .4; }
+  to { translate: 0 0; opacity: 1; }
+}
+
 .hero {
   position: relative;
   display: flex;
@@ -170,9 +193,19 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 
 /* Navbar */
+.topbar__zap {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.topbar__zap img { width: 15px; height: 15px; }
+
 .navbar {
   position: relative;
   z-index: 10;
+  transition: box-shadow .25s ease, background .25s ease;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1444,6 +1477,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   align-items: flex-start;
   gap: 36px;
   margin-top: 2px; /* no Figma a coluna começa 2px abaixo do accordion */
+  position: sticky;
+  top: 116px; /* altura do menu fixo + folga */
 }
 .faq__header {
   display: flex;
@@ -1885,7 +1920,19 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .abordagem__logo { padding: 12px 16px; }
 
   /* margem negativa aproxima do título sem mexer no gap dos outros itens do cabeçalho */
-  .kicker { height: auto; padding: 8px 10px 8px 13px; font-size: 12px; letter-spacing: 2.5px; line-height: 1.6; margin-bottom: -10px; }
+  .topbar { font-size: 13px; gap: 6px 14px; }
+  .topbar__extra { display: none; } /* em telas estreitas o WhatsApp tem prioridade */
+
+  /* uma linha só: a fonte e o espaçamento acompanham a largura da tela */
+  .kicker {
+    height: auto;
+    padding: 8px 10px;
+    font-size: min(12px, 2.4vw);
+    letter-spacing: .16em;
+    line-height: 1.6;
+    margin-bottom: -10px;
+    white-space: nowrap;
+  }
 
   .servicos { --serv-card-w: 290px; --serv-gap: 20px; padding-block: 80px 94px; gap: 32px; }
   .servicos__header { flex-direction: column; align-items: flex-start; gap: 28px; }
