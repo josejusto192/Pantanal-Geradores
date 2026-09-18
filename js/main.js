@@ -355,7 +355,7 @@ if (!reduceMotion.matches && mouseFino.matches) {
    ========================================================================== */
 const gruposEntrada = ['.solucoes__cards > *', '.abordagem__lista > li', '.beneficios__cards > *'];
 
-if (!reduceMotion.matches) {
+if (!reduceMotion.matches && 'IntersectionObserver' in window) {
   const observador = new IntersectionObserver((entradas) => {
     entradas.forEach((entrada) => {
       if (!entrada.isIntersecting) return;
@@ -372,3 +372,54 @@ if (!reduceMotion.matches) {
     });
   });
 }
+
+/* ==========================================================================
+   FAQ: abre e fecha com animação de altura em todos os navegadores
+   (::details-content e interpolate-size só existem no Chrome)
+   ========================================================================== */
+const itensFaq = [...document.querySelectorAll('.faq-item')];
+const animacoesFaq = new Map();
+const DURACAO_FAQ = 280;
+
+function animarResposta(item, de, para, aoTerminar) {
+  const corpo = item.querySelector('.faq-item__resposta');
+  animacoesFaq.get(item)?.cancel();
+
+  if (reduceMotion.matches || !corpo.animate) {
+    aoTerminar();
+    return;
+  }
+
+  const animacao = corpo.animate(
+    { height: [`${de}px`, `${para}px`] },
+    // fill forwards segura a altura final até o <details> mudar de estado:
+    // sem isso o conteúdo voltava à altura natural por um quadro ao fechar
+    { duration: DURACAO_FAQ, easing: 'cubic-bezier(.4, 0, .2, 1)', fill: 'forwards' }
+  );
+  animacoesFaq.set(item, animacao);
+  animacao.addEventListener('finish', () => {
+    animacoesFaq.delete(item);
+    aoTerminar();
+    animacao.cancel();
+  });
+}
+
+function fecharFaq(item) {
+  const corpo = item.querySelector('.faq-item__resposta');
+  animarResposta(item, corpo.offsetHeight, 0, () => { item.open = false; });
+}
+
+function abrirFaq(item) {
+  itensFaq.forEach((outro) => { if (outro !== item && outro.open) fecharFaq(outro); }); // só um aberto
+  item.open = true;
+  const corpo = item.querySelector('.faq-item__resposta');
+  animarResposta(item, 0, corpo.offsetHeight, () => {});
+}
+
+itensFaq.forEach((item) => {
+  item.querySelector('summary').addEventListener('click', (e) => {
+    e.preventDefault(); // o <details> abriria na hora; quem controla é a animação
+    if (item.open) fecharFaq(item);
+    else abrirFaq(item);
+  });
+});

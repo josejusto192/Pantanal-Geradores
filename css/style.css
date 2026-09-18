@@ -31,7 +31,11 @@
 /* Reset */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
-html { scroll-behavior: smooth; interpolate-size: allow-keywords; } /* permite animar altura auto (acordeão) */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%; /* iOS aumenta a fonte no giro da tela sem isso */
+  text-size-adjust: 100%;
+}
 body {
   font-family: var(--font);
   color: var(--navy);
@@ -94,7 +98,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   white-space: nowrap;
   transition: filter .2s, transform .2s;
 }
-.btn:hover { filter: brightness(1.05); transform: translateY(-1px); }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { filter: brightness(1.05); transform: translateY(-1px); }
+}
 .btn--primary {
   color: var(--navy);
   background: linear-gradient(90deg, var(--lime) 0%, var(--lime-light) 38.891%, var(--lime-mid) 100%);
@@ -190,7 +196,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   white-space: nowrap;
 }
 .navbar__links > li > a { display: block; transition: color .2s; }
-.navbar__links > li > a:hover, .navbar__trigger:hover { color: #6f9a12; }
+@media (hover: hover) and (pointer: fine) {
+  .navbar__links > li > a:hover, .navbar__trigger:hover { color: #6f9a12; }
+}
 .navbar__toggle { display: none; }
 
 /* Contato: botão do header (Figma 79:494) */
@@ -206,7 +214,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-weight: 600;
   transition: filter .2s;
 }
-.navbar__links > li > .navbar__contato:hover { filter: brightness(1.06); color: var(--navy); }
+@media (hover: hover) and (pointer: fine) {
+  .navbar__links > li > .navbar__contato:hover { filter: brightness(1.06); color: var(--navy); }
+}
 .navbar__contato img { width: 19px; height: 19px; }
 
 /* Megamenu de Serviços */
@@ -293,7 +303,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   border-radius: 14px;
   transition: background .2s;
 }
-.mega__item:hover { background: var(--bg-light); }
+@media (hover: hover) and (pointer: fine) {
+  .mega__item:hover { background: var(--bg-light); }
+}
 .mega__icone {
   display: grid;
   place-items: center;
@@ -304,7 +316,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: rgba(168, 207, 69, .18);
   transition: background .2s;
 }
-.mega__item:hover .mega__icone { background: var(--lime); }
+@media (hover: hover) and (pointer: fine) {
+  .mega__item:hover .mega__icone { background: var(--lime); }
+}
 .mega__icone img { width: 24px; height: 24px; }
 .mega__texto { display: flex; flex-direction: column; gap: 4px; }
 .mega__texto strong { font-size: 16px; font-weight: 600; color: var(--navy); }
@@ -385,9 +399,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero__thumbs img + img { margin-left: -9px; }
 /* hover: o avatar sobe um pouco e empurra os vizinhos de leve */
 .hero__thumbs img { position: relative; transition: translate .3s ease, margin-left .3s ease, scale .3s ease; }
-.hero__thumbs img:hover { translate: 0 -5px; scale: 1.06; z-index: 2; }
-.hero__thumbs img:hover + img { margin-left: -2px; }
-.hero__thumbs img:has(+ img:hover) { translate: -5px 0; }
+@media (hover: hover) and (pointer: fine) {
+  .hero__thumbs img:hover { translate: 0 -5px; scale: 1.06; z-index: 2; }
+  .hero__thumbs img:hover + img { margin-left: -2px; }
+  .hero__thumbs img:has(+ img:hover) { translate: -5px 0; }
+}
 .hero__proof-text {
   display: flex;
   flex-direction: column;
@@ -542,7 +558,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .sol-card--dark .sol-card__link { color: var(--bg-light); }
 .sol-card__link img { width: 16px; height: 16px; transition: transform .2s; }
-.sol-card__link:hover img { transform: translateX(4px); }
+@media (hover: hover) and (pointer: fine) {
+  .sol-card__link:hover img { transform: translateX(4px); }
+}
 
 /* ==========================================================================
    Seção 3 — Abordagem técnica
@@ -760,7 +778,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: var(--lime);
   transition: filter .2s;
 }
-.servicos__btn:hover { filter: brightness(1.08); }
+@media (hover: hover) and (pointer: fine) {
+  .servicos__btn:hover { filter: brightness(1.08); }
+}
 .servicos__btn img { width: 20px; height: 20px; }
 
 .servicos__carrossel { overflow: hidden; }
@@ -819,8 +839,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* enquanto a faixa desliza, os cards passam sob o ponteiro: sem isso o hover piscava */
 .servicos__track.is-moving { pointer-events: none; }
 /* card em destaque (o primeiro do container) e hover usam o gradiente mais claro do Figma */
-.serv-card.is-active::before, .serv-card:hover::before { opacity: 0; }
-.serv-card.is-active::after, .serv-card:hover::after { opacity: 1; }
+.serv-card.is-active::before { opacity: 0; }
+.serv-card.is-active::after { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .serv-card:hover::before { opacity: 0; }
+  .serv-card:hover::after { opacity: 1; }
+}
 
 .serv-card__tag {
   font-size: 12px;
@@ -837,7 +861,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-weight: 700;
 }
 .serv-card__link img { width: 16px; height: 16px; transition: transform .2s; }
-.serv-card__link:hover img { transform: translateX(4px); }
+@media (hover: hover) and (pointer: fine) {
+  .serv-card__link:hover img { transform: translateX(4px); }
+}
 
 .servicos__dots {
   display: flex;
@@ -1372,8 +1398,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   border: 1px solid rgba(55, 66, 83, .19);
   border-radius: 7px;
   background: rgba(237, 244, 248, .37);
+  appearance: none; /* iOS desenha sombra interna e cantos próprios nos campos */
+  -webkit-appearance: none;
   font: inherit;
-  font-size: 16px;
+  font-size: 16px; /* abaixo de 16px o iOS dá zoom ao focar */
   color: var(--navy);
   transition: border-color .2s, box-shadow .2s;
 }
@@ -1486,20 +1514,17 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .faq-item[open] .faq-item__toggle { background: var(--lime); }
 .faq-item[open] .faq-item__toggle::after { rotate: 0deg; }
 
-.faq-item__resposta { padding: 0 30px 28px; }
+.faq-item__corpo { padding: 0 30px 28px; }
 .faq-item__resposta p {
   max-width: 621px;
   font-size: 15px;
   line-height: 25.5px; /* 170% no Figma */
   color: #596f7f;
 }
-/* abre e fecha com animação onde o navegador suporta */
-.faq-item::details-content {
-  block-size: 0;
-  overflow: hidden;
-  transition: block-size .3s ease, content-visibility .3s allow-discrete;
-}
-.faq-item[open]::details-content { block-size: auto; }
+/* A abertura é animada pelo JS (Web Animations API), não por ::details-content:
+   esse pseudo-elemento e o interpolate-size só existem no Chrome — no Safari e no
+   Firefox o acordeão abria e fechava de supetão. */
+.faq-item__resposta { overflow: hidden; }
 
 /* ==========================================================================
    Seção 12 — Rodapé
@@ -1543,7 +1568,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: var(--lime);
   transition: filter .2s;
 }
-.rodape__redes a:hover { filter: brightness(1.08); }
+@media (hover: hover) and (pointer: fine) {
+  .rodape__redes a:hover { filter: brightness(1.08); }
+}
 .rodape__redes img { width: 26px; height: 26px; }
 
 .rodape h2 {
@@ -1564,7 +1591,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   line-height: 16.8px;
   transition: color .2s;
 }
-.rodape__nav a:hover { color: var(--lime); }
+@media (hover: hover) and (pointer: fine) {
+  .rodape__nav a:hover { color: var(--lime); }
+}
 
 .rodape__contato ul {
   display: flex;
@@ -1603,7 +1632,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   color: #94a3b6;
   transition: color .2s;
 }
-.rodape__contato a:hover .rodape__contato-valor { color: var(--lime); }
+@media (hover: hover) and (pointer: fine) {
+  .rodape__contato a:hover .rodape__contato-valor { color: var(--lime); }
+}
 
 .rodape__barra {
   display: flex;
@@ -1622,7 +1653,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   line-height: 13.6px;
   transition: color .2s;
 }
-.rodape__topo:hover { color: var(--lime); }
+@media (hover: hover) and (pointer: fine) {
+  .rodape__topo:hover { color: var(--lime); }
+}
 .rodape__topo img { width: 18px; height: 18px; }
 
 /* ==========================================================================
@@ -1663,6 +1696,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     align-items: stretch;
     gap: 0;
     max-height: calc(100vh - 150px); /* com 10 serviços a lista passa da tela */
+    max-height: calc(100dvh - 150px); /* iOS: 100vh inclui a barra de endereço */
     overflow-y: auto;
     overflow-x: hidden; /* o submenu fica parado fora da borda direita: sem isso vira barra de rolagem */
     overscroll-behavior: contain;
@@ -1674,6 +1708,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   }
   .navbar.is-open .navbar__links { display: flex; }
   .navbar__links.tem-submenu { height: calc(100vh - 150px); overflow: hidden; } /* quem rola é o submenu */
+  .navbar__links.tem-submenu { height: calc(100dvh - 150px); }
 
   /* no mobile o megamenu é um submenu que desliza por cima do menu */
   .navbar__servicos { position: static; width: 100%; }
@@ -1849,7 +1884,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .faq__cta p { font-size: 16px; }
   .faq-item summary { min-height: 0; padding: 20px; gap: 16px; }
   .faq-item__pergunta { font-size: 16px; }
-  .faq-item__resposta { padding: 0 20px 20px; }
+  .faq-item__corpo { padding: 0 20px 20px; }
 
   .contato { padding-bottom: 80px; }
   .contato__card { border-radius: 20px; }
@@ -1941,6 +1976,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .etapas.anima .etapa__foto,
   .etapas.anima .etapa__conteudo { opacity: 1; translate: none; scale: 1; transition: none; }
   /* faixas: o JS não cria a animação quando o motion está reduzido */
-  .faq-item::details-content { transition: none; }
+  /* FAQ: com motion reduzido o JS não anima */
   .servicos__track { transition: none !important; }
 }
