@@ -517,8 +517,16 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 /* float suave no hover (transform, não translate: translate é usado pela animação de entrada) */
 @media (hover: hover) and (pointer: fine) {
-  .sol-card { transition: transform .35s ease; }
+  .sol-card { position: relative; transition: transform .35s ease; }
   .sol-card:hover { transform: translateY(-8px); } /* só o float: sombra e empilhamento ficam como estão */
+  /* o card sobe 8px e o ponteiro ficava fora dele na borda de baixo: entrava e saía em looping.
+     Esta faixa invisível (atrás do card) mantém a área de hover contínua. */
+  .sol-card::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: -10px 0;
+  }
 }
 
 .sol-card__icon { width: 56px; height: 56px; }
