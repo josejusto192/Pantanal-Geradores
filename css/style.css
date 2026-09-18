@@ -776,7 +776,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .serv-card {
   position: relative;
   isolation: isolate;
-  flex: 0 0 var(--serv-card-w);
+  /* WebKit não resolve var() dentro do atalho flex: o card ficava com a largura natural */
+  flex: 0 0 auto;
+  width: var(--serv-card-w);
   height: 501px;
   display: flex;
   flex-direction: column;
@@ -1066,7 +1068,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
    @keyframes + var() não é recalculado pelo WebKit depois que a animação já começou */
 
 .portfolio__item {
-  flex: 0 0 var(--item-w);
+  flex: 0 0 auto; /* var() no atalho flex quebra no WebKit */
+  width: var(--item-w);
   aspect-ratio: 466.69 / 274.16;
   border-radius: 16px;
   overflow: hidden;
@@ -1217,7 +1220,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   overflow: hidden;
 }
 .depo-card {
-  flex: 0 0 var(--item-w);
+  flex: 0 0 auto; /* var() no atalho flex quebra no WebKit */
+  width: var(--item-w);
   display: flex;
   flex-direction: column;
   border: 1px solid var(--bg-light);
