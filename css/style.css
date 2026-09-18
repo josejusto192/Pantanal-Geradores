@@ -126,7 +126,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   padding-top: 8px;
   overflow: hidden;
   border-radius: 0 0 32px 32px;
-  background: var(--navy-deep) url("../assets/img/hero-bg.jpg") center bottom / cover no-repeat;
+  background: var(--navy-deep) url("../assets/img/hero-bg.webp") top center / cover no-repeat;
 }
 
 /* Navbar */
@@ -342,18 +342,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   color: #dce5ef;
 }
 .hero__proof-text strong { color: var(--lime); }
-
-/* Técnico (espelhado, esticado como no Figma) */
-.hero__tecnico {
-  position: absolute;
-  z-index: 1;
-  left: 573px;
-  bottom: 0;
-  width: 534px;
-  height: 662px;
-  max-width: none;
-  transform: scaleX(-1);
-}
 
 /* Selo giratório */
 .selo {
@@ -1527,7 +1515,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
    Responsivo
    ========================================================================== */
 @media (max-width: 1320px) {
-  .hero__tecnico { left: auto; right: 60px; }
   .selo { left: auto; right: -40px; }
 }
 
@@ -1594,7 +1581,13 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .navbar__links > li > a { padding: 16px 0; }
   .navbar__links > li + li { border-top: 1px solid rgba(13, 17, 56, .1); }
 
-  .hero__content { max-width: 60%; }
+  /* imagem vertical do Figma: azul em cima para o texto, técnico embaixo */
+  .hero {
+    min-height: max(880px, min(1250px, 100vw * 1.5));
+    background-image: url("../assets/img/hero-bg-mobile.webp");
+    background-position: bottom center;
+  }
+  .hero__content { max-width: 640px; }
 
   .solucoes__header { flex-direction: column; align-items: flex-start; }
   .solucoes__titles { width: auto; }
@@ -1636,8 +1629,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .etapa h3 { font-size: 26px; }
   .hero__subtitle br { display: none; }
   .hero__title { font-size: clamp(40px, 5.5vw, 64px); }
-  .hero__tecnico { right: -40px; width: 420px; height: 520px; }
-  .selo { right: 250px; bottom: 30px; scale: .6; transform-origin: right bottom; }
+  .selo { right: 20px; bottom: 30px; scale: .6; transform-origin: right bottom; }
 }
 
 @media (max-width: 900px) {
@@ -1724,7 +1716,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .ben-card { min-height: 0; padding: 28px 24px; }
   .abordagem__logo img { width: 160px; height: 23.7px; object-fit: contain; }
 
-  .hero { min-height: 0; }
   .navbar { padding: 16px; }
   .navbar__logo { width: 180px; height: 26.6px; }
   .navbar__logo img { width: 184px; height: 27.5px; }
@@ -1735,14 +1726,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .hero__subtitle { font-size: 18px; }
   .hero__proof-text p { white-space: normal; }
 
-  .hero__tecnico {
-    position: relative;
-    right: auto;
-    width: 290px;
-    height: 360px;
-    margin: 32px auto 0;
-  }
-  .selo { right: -20px; bottom: 40px; scale: .55; }
+  .selo { right: -10px; bottom: 32px; scale: .5; transform-origin: right bottom; }
 }
 
 @media (max-width: 600px) {
