@@ -91,6 +91,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .btn__icon {
   display: grid;
+  flex-shrink: 0; /* sem isso o ícone achata quando o botão fica estreito (form) */
   place-items: center;
   width: 42px;
   height: 42px;
@@ -1574,6 +1575,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     gap: 0;
     max-height: calc(100vh - 150px); /* com 10 serviços a lista passa da tela */
     overflow-y: auto;
+    overflow-x: hidden; /* o submenu fica parado fora da borda direita: sem isso vira barra de rolagem */
     overscroll-behavior: contain;
     padding: 8px 16px;
     border-radius: 16px;
@@ -1582,7 +1584,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     display: none;
   }
   .navbar.is-open .navbar__links { display: flex; }
-  .navbar__links.tem-submenu { height: calc(100vh - 150px); }
+  .navbar__links.tem-submenu { height: calc(100vh - 150px); overflow: hidden; } /* quem rola é o submenu */
 
   /* no mobile o megamenu é um submenu que desliza por cima do menu */
   .navbar__servicos { position: static; width: 100%; }
@@ -1594,7 +1596,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     display: flex;
     flex-direction: column;
     width: auto;
-    padding: 0 16px 16px;
+    padding: 0 16px 12px;
     border: 0;
     border-radius: 16px;
     box-shadow: none;
@@ -1617,10 +1619,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 16px 0;
+    padding: 10px 0;
     border-bottom: 1px solid rgba(13, 17, 56, .1);
     background: var(--white);
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--navy);
   }
@@ -1633,13 +1635,18 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     rotate: 45deg;
   }
 
+  /* compacto: os 10 serviços + CTA precisam caber na tela sem rolagem */
   .mega__lista { grid-template-columns: 1fr; gap: 0; }
-  .mega__item { padding: 14px 0; }
+  .mega__item { gap: 10px; padding: 6px 0; border-radius: 10px; }
   .mega__lista li + li .mega__item { border-top: 1px solid rgba(13, 17, 56, .07); }
-  .mega__texto strong { font-size: 17px; }
-  .mega__rodape { flex-direction: column; align-items: flex-start; margin-top: 16px; }
-  .mega__rodape p { max-width: none; align-self: stretch; }
-  .mega__btn { align-self: stretch; justify-content: space-between; }
+  .mega__icone { width: 32px; height: 32px; border-radius: 9px; }
+  .mega__icone img { width: 18px; height: 18px; }
+  .mega__texto strong { font-size: 15px; }
+  .mega__texto small { display: none; }
+  .mega__rodape { margin-top: 10px; padding: 8px 8px 8px 14px; border-radius: 12px; }
+  .mega__rodape p { display: none; }
+  .mega__btn { flex: 1; justify-content: space-between; min-height: 42px; font-size: 13px; }
+  .mega__btn .btn__icon { width: 34px; height: 34px; }
   .navbar__links > li > a { padding: 16px 0; }
   .navbar__links > li > .navbar__contato { display: flex; justify-content: space-between; margin: 12px 0 4px; padding: 14px 16px; }
   .navbar__links > li + li { border-top: 1px solid rgba(13, 17, 56, .1); }
@@ -1711,7 +1718,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .abordagem__lead { font-size: 16px; }
   .abordagem__logo { padding: 12px 16px; }
 
-  .kicker { height: auto; letter-spacing: 2.5px; line-height: 1.6; }
+  /* margem negativa aproxima do título sem mexer no gap dos outros itens do cabeçalho */
+  .kicker { height: auto; padding: 8px 10px 8px 13px; font-size: 12px; letter-spacing: 2.5px; line-height: 1.6; margin-bottom: -10px; }
 
   .servicos { --serv-card-w: 290px; --serv-gap: 20px; padding-block: 80px 94px; gap: 32px; }
   .servicos__header { flex-direction: column; align-items: flex-start; gap: 28px; }
@@ -1759,6 +1767,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .contato__header { gap: 24px; }
   .contato__lead { font-size: 16px; }
   .campo label { font-size: 16px; }
+  .btn--full { padding-left: 14px; font-size: 14px; gap: 10px; } /* em telas estreitas o rótulo não pode empurrar o ícone */
 
   .como-funciona { padding-block: 66px 80px; gap: 40px; } /* o fundo claro de Serviços termina 14px antes (onda), então o espaço visível fica 80px */
   .como-funciona__header { gap: 24px; }
@@ -1788,15 +1797,28 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .hero__title { font-size: clamp(32px, 9vw, 48px); }
   .hero__subtitle { font-size: 18px; }
   .hero__proof-text p { white-space: normal; }
+  .hero__proof { flex-direction: column; gap: 10px; } /* mobile: avatares acima do texto */
 
   .selo { right: -10px; bottom: 32px; scale: .5; transform-origin: right bottom; }
+
+  /* mobile: só a hero e a Área de atendimento ficam centralizadas */
+  .hero__content, .hero__heading,
+  .atendimento__conteudo, .atendimento__header {
+    text-align: center;
+    align-items: center;
+  }
+  .atendimento__cidades { align-items: center; }
+  .atendimento__linha { justify-content: center; }
+  .hero__proof { justify-content: center; }
 }
 
 @media (max-width: 600px) {
   /* Benefícios: ao rolar, cada card fixa no topo e o próximo sobe por cima (empilhamento) */
-  .beneficios__cards { display: flex; flex-direction: column; padding-bottom: 160px; } /* espaço para o último card travar como os outros */
+  /* padding = folga para o último card travar junto com a pilha; a margem negativa tira essa folga do espaço visível */
+  .beneficios__cards { display: flex; flex-direction: column; padding-bottom: 48px; margin-bottom: -36px; }
   .ben-card {
     position: sticky;
+    min-height: 196px; /* alturas iguais: cards mais baixos sairiam depois dos outros e ficariam sozinhos */
     top: 24px;
     box-shadow: 0 -6px 16px rgba(3, 8, 63, .18);
   }

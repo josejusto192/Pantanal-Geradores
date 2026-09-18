@@ -37,8 +37,16 @@ const listaMenu = document.getElementById('nav-links');
 function abrirMega(abrir) {
   servicosItem.classList.toggle('is-open', abrir);
   servicosTrigger.setAttribute('aria-expanded', abrir);
-  // no mobile o submenu ocupa a altura do painel, então ele cresce enquanto está aberto
-  listaMenu.classList.toggle('tem-submenu', abrir && !telaGrande.matches);
+  // no mobile o submenu ocupa a altura do painel: o painel passa a ter a altura da lista de serviços
+  const submenuMobile = abrir && !telaGrande.matches;
+  listaMenu.classList.toggle('tem-submenu', submenuMobile);
+  if (submenuMobile) {
+    // o submenu é absoluto (inset: 0), então a altura vem do último filho, não do scrollHeight
+    const ultimo = megaPainel.lastElementChild;
+    listaMenu.style.height = ultimo.offsetTop + ultimo.offsetHeight + 12 + 'px';
+  } else {
+    listaMenu.style.height = '';
+  }
   if (abrir && telaGrande.matches) posicionarSeta();
 }
 
