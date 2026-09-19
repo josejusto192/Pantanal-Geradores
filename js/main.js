@@ -387,7 +387,18 @@ if (!reduceMotion.matches && mouseFino.matches) {
   // elementos com rolagem própria (menu, submenu) continuam com o scroll nativo
   const temScrollProprio = (el) => el instanceof Element && el.closest('.navbar__links, .mega');
 
+  let ultimaPosicao = 0; // onde a inércia deixou a página no último quadro
+
   function passoScroll() {
+    if (!animando) return; // interrompida por clique ou teclado
+    // Algo além da roda moveu a página (link âncora, teclado, barra de rolagem):
+    // a inércia cede. Sem isso ela continuava puxando para o destino da roda e
+    // anulava o link — "Início" logo depois de rolar não voltava ao topo.
+    if (Math.abs(scrollY - ultimaPosicao) > 2) {
+      animando = false;
+      alvo = scrollY;
+      return;
+    }
     const restante = alvo - scrollY;
     // 'instant' porque html { scroll-behavior: smooth } animaria cada passo e travaria a inércia
     if (Math.abs(restante) < 0.5) {
@@ -396,6 +407,7 @@ if (!reduceMotion.matches && mouseFino.matches) {
       return;
     }
     scrollTo({ top: scrollY + restante * 0.1, behavior: 'instant' });
+    ultimaPosicao = scrollY;
     requestAnimationFrame(passoScroll);
   }
 
@@ -408,9 +420,17 @@ if (!reduceMotion.matches && mouseFino.matches) {
     alvo = Math.min(limite(), Math.max(0, (animando ? alvo : scrollY) + emPixels(e)));
     if (!animando) {
       animando = true;
+      ultimaPosicao = scrollY;
       requestAnimationFrame(passoScroll);
     }
   }, { passive: false });
+
+  // Clique (link âncora, barra de rolagem) ou tecla: a inércia para na hora. No Chrome e
+  // no Firefox o scrollTo dela cancelaria o scroll suave do link antes dele começar.
+  const pararInercia = () => { animando = false; alvo = scrollY; };
+  document.addEventListener('mousedown', pararInercia, true);
+  document.addEventListener('click', pararInercia, true);
+  document.addEventListener('keydown', pararInercia, true);
 
   // qualquer outro tipo de rolagem (âncora, teclado, barra) recalibra o alvo
   addEventListener('scroll', () => { if (!animando) alvo = scrollY; }, { passive: true });
