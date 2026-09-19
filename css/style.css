@@ -1973,7 +1973,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .servicos__titles { gap: 24px; }
   .serv-card { height: 440px; padding: 28px 24px; --serv-card-gap: 20px; }
 
-  /* setas saem do topo e vão para junto do card, com contador e progresso no lugar dos 10 dots */
+  /* no celular: sem setas nem dots — o carrossel anda sozinho e por swipe, com uma barra de progresso */
   .servicos__header .servicos__nav,
   .servicos__dots { display: none; }
   .servicos__controles {
@@ -1982,13 +1982,6 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
     gap: 16px;
     margin-top: -8px;
   }
-  .servicos__contador {
-    flex-shrink: 0;
-    font-size: 14px;
-    color: rgba(13, 17, 56, .55);
-    font-variant-numeric: tabular-nums;
-  }
-  .servicos__contador strong { font-size: 18px; font-weight: 700; color: var(--navy); }
   .servicos__progresso {
     flex: 1;
     height: 3px;
@@ -2004,7 +1997,6 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
     background: var(--lime);
     transition: width .5s cubic-bezier(.4, 0, .2, 1);
   }
-  .servicos__controles .servicos__nav { gap: 10px; }
 
   .portfolio { padding-block: 80px; gap: 40px; }
   .portfolio__header { gap: 28px; }

@@ -130,15 +130,12 @@ for (let i = 0; i < total; i++) {
   servDots.append(dot);
 }
 
-// contador e progresso da barra de controle do mobile
-const servAtual = document.querySelector('.servicos__atual');
+// barra de progresso do mobile
 const servProgresso = document.querySelector('.servicos__progresso');
-document.querySelector('.servicos__total').textContent = String(total).padStart(2, '0');
 
 function markActive(pos = antes) { // pos = posição no DOM do card alinhado ao container
   [...track.children].forEach((card, i) => card.classList.toggle('is-active', i === pos));
   [...servDots.children].forEach((dot, i) => dot.setAttribute('aria-current', i === current));
-  servAtual.textContent = String(current + 1).padStart(2, '0');
   servProgresso.style.setProperty('--progresso', `${((current + 1) / total) * 100}%`);
 }
 
@@ -207,6 +204,37 @@ track.addEventListener('pointercancel', () => { dragStart = null; });
 track.addEventListener('click', (e) => { if (dragged) e.preventDefault(); }, true);
 
 markActive();
+
+// Mobile: o carrossel anda sozinho enquanto está na tela. Tocar pausa;
+// ao soltar, a contagem recomeça do zero para não pular logo depois do gesto.
+const telaMobile = matchMedia('(max-width: 768px)');
+const INTERVALO_AUTOPLAY = 4500;
+let autoplay = null;
+let carrosselVisivel = false;
+
+function pararAutoplay() {
+  clearInterval(autoplay);
+  autoplay = null;
+}
+
+function iniciarAutoplay() {
+  pararAutoplay();
+  if (!carrosselVisivel || !telaMobile.matches || reduceMotion.matches || document.hidden) return;
+  autoplay = setInterval(() => moveCarousel(1), INTERVALO_AUTOPLAY);
+}
+
+if ('IntersectionObserver' in window) {
+  // observa a janela do carrossel (o trilho é bem mais largo que a tela e nunca chegaria a 50%)
+  new IntersectionObserver(([entrada]) => {
+    carrosselVisivel = entrada.isIntersecting;
+    iniciarAutoplay();
+  }, { threshold: 0.5 }).observe(track.closest('.servicos__carrossel'));
+}
+track.addEventListener('pointerdown', pararAutoplay);
+track.addEventListener('pointerup', iniciarAutoplay);
+track.addEventListener('pointercancel', iniciarAutoplay);
+document.addEventListener('visibilitychange', iniciarAutoplay);
+telaMobile.addEventListener('change', iniciarAutoplay);
 
 // Faixas contínuas (portfólio e depoimentos): duplica os itens o mínimo necessário para o loop.
 // Poucas cópias = faixa mais curta, que no celular evita falhas de renderização.
