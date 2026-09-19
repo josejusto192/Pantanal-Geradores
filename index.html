@@ -189,11 +189,11 @@
         <p class="hero__subtitle trim">Manutenção preventiva, corretiva, instalação e diagnóstico<br> de grupos geradores, com atendimento 24 horas.</p>
 
         <div class="hero__acoes">
+          <p class="hero__urgente">Gerador parado agora? Atendimento 24 horas — é só chamar aqui embaixo.</p>
           <a class="btn btn--primary" href="#contato">
             <span class="trim">Solicitar orçamento</span>
             <span class="btn__icon"><img src="assets/icons/whatsapp.svg" alt="" width="19" height="19"></span>
           </a>
-          <p class="hero__urgente">Gerador parado agora? Ligue <a href="tel:+5565996479191">(65) 99647-9191</a> ou <a href="https://wa.me/" data-whatsapp data-mensagem="Olá! Meu gerador parou e preciso de atendimento urgente.">chame no WhatsApp</a>.</p>
         </div>
 
         <div class="hero__proof">
@@ -721,12 +721,24 @@
             </div>
             <div class="campo campo--largo">
               <label class="trim" for="campo-servico">O que você precisa?</label>
-              <input id="campo-servico" name="servico" type="text" placeholder="Quero orientação técnica" required>
+              <select id="campo-servico" name="servico" required>
+                <option value="" disabled selected>Selecione o serviço</option>
+                <option>Gerador parado — atendimento urgente</option>
+                <option>Manutenção preventiva / plano mensal</option>
+                <option>Manutenção corretiva (gerador com falha)</option>
+                <option>Diagnóstico de falhas</option>
+                <option>Instalação de grupo gerador</option>
+                <option>QTA, comando e controladores</option>
+                <option>Testes de funcionamento e carga</option>
+                <option>Retrofit de controlador</option>
+                <option>Outro / quero orientação técnica</option>
+              </select>
             </div>
             <button class="btn btn--primary btn--full" type="submit">
               <span class="trim">Enviar no WhatsApp</span>
               <span class="btn__icon"><img src="assets/icons/whatsapp.svg" alt="" width="19" height="19"></span>
             </button>
+            <p class="contato__aviso">Ao clicar, você vai direto para o nosso WhatsApp, com a mensagem já preenchida.</p>
           </form>
         </div>
       </div>
