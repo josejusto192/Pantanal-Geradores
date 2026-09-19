@@ -1097,15 +1097,30 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   font-size: 18px;
   color: rgba(255, 255, 255, .8);
 }
-.portfolio__faixas {
-  --item-w: 466.69px; /* 4 por linha em 1920px, como no Figma */
-  --gap-x: 17.745px;
-  --duracao: 45s;
-  display: flex;
-  flex-direction: column;
-  gap: 23.068px;
-  overflow: hidden;
+/* grade do Figma: linhas 216 / 100 / 216 com 18px entre elas; as fotos altas ocupam 2 linhas
+   (216 + 18 + 100 = 334). O aspect-ratio dá altura à grade para as linhas em fr escalarem. */
+.portfolio__grade {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 216fr 100fr 216fr;
+  gap: 18px 18.46px;
+  aspect-ratio: 1280 / 568;
+  min-height: 0; /* senão o Chrome deixa a altura das fotos esticar a grade além da proporção */
 }
+.portfolio__foto {
+  min-height: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--bg-light);
+}
+.portfolio__foto img { width: 100%; height: 100%; object-fit: cover; }
+.portfolio__foto:nth-child(1) { grid-area: 1 / 1 / 3 / 2; }
+.portfolio__foto:nth-child(2) { grid-area: 1 / 2 / 2 / 3; }
+.portfolio__foto:nth-child(3) { grid-area: 1 / 3 / 3 / 4; }
+.portfolio__foto:nth-child(4) { grid-area: 3 / 1 / 4 / 2; }
+.portfolio__foto:nth-child(5) { grid-area: 2 / 2 / 4 / 3; }
+.portfolio__foto:nth-child(6) { grid-area: 3 / 3 / 4 / 4; }
+
 /* carrossel contínuo: o JS cria 2 cópias dos itens; a faixa anda 1/3 e recomeça sem emenda */
 .marquee__track {
   display: flex;
@@ -1119,15 +1134,6 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 /* a animação da faixa é criada em JS (Web Animations API), com deslocamento em pixels:
    @keyframes + var() não é recalculado pelo WebKit depois que a animação já começou */
 
-.portfolio__item {
-  flex: 0 0 auto; /* var() no atalho flex quebra no WebKit */
-  width: var(--item-w);
-  aspect-ratio: 466.69 / 274.16;
-  border-radius: 16px;
-  overflow: hidden;
-  background: var(--bg-light);
-}
-.portfolio__item img { width: 100%; height: 100%; object-fit: cover; }
 
 /* ==========================================================================
    Seção 8 — Área de atendimento
@@ -1862,7 +1868,6 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .portfolio__header { flex-direction: column; align-items: flex-start; }
   .portfolio__titles { width: auto; }
   .portfolio__lead { width: auto; max-width: 600px; }
-  .portfolio__faixas { --item-w: 300px; --gap-x: 12px; --duracao: 35s; gap: 12px; }
 
   .etapa { column-gap: 32px; }
 
@@ -1893,14 +1898,6 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 
 @media (max-width: 900px) {
   .solucoes__cards { grid-template-columns: 1fr; }
-
-  /* as ondas têm 2400px+ de largura: em tela pequena só aparecia o miolo reto delas.
-     Aqui elas passam a caber na tela inteira, então a curva fica visível. */
-  .portfolio__onda { width: 100vw; height: 26px; translate: -50% 0; }
-  .servicos__onda--topo { width: 100vw; height: 34px; top: -24px; }
-  .servicos__onda--base { width: 100vw; height: 34px; bottom: -4px; }
-  .depoimentos__divisor { height: 30px; }
-  .faq__onda { height: 30px; top: -29px; }
 }
 
 @media (max-width: 768px) {
@@ -1938,8 +1935,9 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .portfolio__header { gap: 28px; }
   .portfolio__titles { gap: 24px; }
   .portfolio__lead { font-size: 16px; }
-  .portfolio__faixas { --item-w: 220px; --gap-x: 8px; --duracao: 28s; gap: 8px; }
-  .portfolio__item { border-radius: 12px; }
+  /* mobile: 2 colunas com fotos do mesmo formato */
+  .portfolio__grade { grid-template-columns: repeat(2, 1fr); grid-template-rows: none; aspect-ratio: auto; gap: 10px; }
+  .portfolio__foto:nth-child(n) { grid-area: auto; aspect-ratio: 4 / 3; border-radius: 12px; }
 
   .atendimento { padding-block: 80px; gap: 40px; }
   .atendimento__conteudo { gap: 28px; }
