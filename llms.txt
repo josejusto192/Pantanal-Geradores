@@ -1,0 +1,38 @@
+# Pantanal Geradores
+
+> Pantanal Geradores e Serviços LTDA é uma empresa especializada em grupos geradores, com 6 anos de atuação e atendimento 24 horas em todo o estado de Mato Grosso. Faz instalação, manutenção preventiva e corretiva, diagnóstico de falhas e serviços em sistemas de transferência (QTA), comando e controladores.
+
+A empresa atende indústrias, comércios, condomínios, hospitais, fazendas e outras operações que dependem de energia de contingência. O atendimento é técnico: a equipe busca entender o equipamento e a origem da falha antes de definir a intervenção, e testa o sistema antes de liberá-lo. A manutenção preventiva também é oferecida em planos mensais.
+
+O contato e os pedidos de orçamento são feitos pelo WhatsApp. Para agilizar, o cliente informa a cidade, o modelo do grupo gerador e o serviço desejado ou o problema observado. Não é preciso saber qual é o defeito: a equipe faz o diagnóstico. Valor e prazo dependem do serviço, do porte do equipamento e da cidade, e são combinados antes da execução.
+
+A empresa não tem endereço físico aberto ao público; o atendimento é feito no local do cliente, com deslocamento em todo o Mato Grosso (incluindo Cuiabá, Várzea Grande, Rondonópolis, Tangará da Serra, Sorriso, Cáceres e Barra do Garças).
+
+## Serviços
+
+- [Manutenção preventiva](https://pantanal-geradores.vercel.app/#servicos): inspeções, revisões e testes periódicos para antecipar desgastes e reduzir paradas; disponível em planos mensais.
+- [Manutenção corretiva](https://pantanal-geradores.vercel.app/#servicos): para falha na partida, alarme recorrente ou parada total; localiza a causa e executa o reparo.
+- [Instalação de grupos geradores](https://pantanal-geradores.vercel.app/#servicos): implantação do equipamento e integração com a estrutura elétrica da empresa.
+- [Diagnóstico e solução de falhas](https://pantanal-geradores.vercel.app/#servicos): avaliação elétrica, eletrônica e mecânica para localizar a origem do problema.
+- [Revisão e inspeção](https://pantanal-geradores.vercel.app/#servicos): avaliação das condições gerais do equipamento.
+- [Transferência e comando](https://pantanal-geradores.vercel.app/#servicos): QTA (Quadro de Transferência Automática), comandos e automação.
+- [Manutenção elétrica e eletrônica](https://pantanal-geradores.vercel.app/#servicos): componentes elétricos e eletrônicos que sustentam o sistema.
+- [Testes de funcionamento e carga](https://pantanal-geradores.vercel.app/#servicos): validação do desempenho do equipamento sob carga.
+- [Assistência e atendimento emergencial](https://pantanal-geradores.vercel.app/#servicos): atendimento 24 horas para ocorrências e paradas urgentes.
+- [Retrofit de controladores](https://pantanal-geradores.vercel.app/#servicos): atualização e substituição de controladores quando tecnicamente indicada.
+
+## Contato
+
+- WhatsApp e telefone: +55 (65) 99647-9191 — https://wa.me/5565996479191
+- E-mail: pantanalgeradores@gmail.com
+- Área de atendimento: todo o estado de Mato Grosso
+- Horário: 24 horas
+
+## Páginas
+
+- [Início](https://pantanal-geradores.vercel.app/): apresentação da empresa e dos serviços.
+- [Como funciona o atendimento](https://pantanal-geradores.vercel.app/#como-funciona): do relato da ocorrência à entrega com o sistema testado.
+- [Projetos realizados](https://pantanal-geradores.vercel.app/#projetos): fotos de instalações e trabalhos da empresa.
+- [Área de atendimento](https://pantanal-geradores.vercel.app/#atendimento): cobertura em Mato Grosso.
+- [Perguntas frequentes](https://pantanal-geradores.vercel.app/#faq): atendimento 24 horas, regiões, orçamento, retrofit, testes de carga e planos mensais.
+- [Contato](https://pantanal-geradores.vercel.app/#contato): formulário que abre o WhatsApp com a mensagem pronta.

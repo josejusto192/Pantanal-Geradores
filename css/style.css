@@ -149,7 +149,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   justify-content: center;
   padding: 8px var(--gutter);
   background: var(--lime);
-  color: var(--white);
+  color: var(--navy); /* branco sobre o verde dava 1,8:1; navy dá 10:1 (mesmo par dos botões) */
   font-size: 14px;
   line-height: 18.85px;
   text-align: center;
@@ -763,7 +763,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 /* ==========================================================================
    Seção 5 — Nossos serviços (carrossel infinito)
    ========================================================================== */
-.kicker--green { color: #63852a; }
+.kicker--green { color: #557323; } /* mesmo tom, escuro o bastante para 4,6:1 sobre o fundo claro */
 
 .servicos {
   /* recorta só na horizontal: as ondas passam de 2400px de largura, mas precisam vazar em cima e embaixo */
