@@ -2109,7 +2109,19 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .depoimentos { padding-block: 125px 80px; gap: 40px; } /* 80px abaixo da onda branca (45px) */
   .depoimentos__header { gap: 24px; }
   .depoimentos__lead { font-size: 16px; }
-  .depoimentos__faixas { --item-w: 300px; --gap-x: 12px; --duracao: 50s; --inicio: var(--gutter); gap: 12px; }
+  .depoimentos__faixas { --item-w: 290px; --gap-x: 10px; --duracao: 45s; --inicio: var(--gutter); gap: 10px; }
+  /* uma faixa só no celular: duas faixas de cards ocupavam quase uma tela e meia */
+  .depoimentos__faixas .marquee:nth-child(2) { display: none; }
+  /* cards mais compactos no celular: texto menor, respiros e iniciais menores */
+  .depo-card { border-radius: 16px; }
+  .depo-card__conteudo { gap: 12px; padding: 16px 16px 14px; }
+  .depo-card__estrelas { width: 68px; height: 10px; }
+  .depo-card__conteudo p { font-size: 14px; line-height: 1.45; }
+  .depo-card__autor { gap: 10px; padding: 12px 16px 14px; }
+  .depo-card__iniciais { width: 34px; height: 34px; border-radius: 10px; font-size: 12px; }
+  .depo-card__autor div { gap: 6px; }
+  .depo-card__nome { font-size: 13px; }
+  .depo-card__cargo { font-size: 11px; }
 
   .rodape { padding: 56px 20px; border-radius: 20px 20px 0 0; }
   .rodape__colunas { grid-template-columns: 1fr; gap: 56px; padding-bottom: 40px; }
