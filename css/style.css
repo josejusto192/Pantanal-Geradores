@@ -127,6 +127,17 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   0%, 62% { translate: 0 0; }
   85%, 100% { translate: 360% 0; }
 }
+@keyframes brilho-hover { from { translate: 0 0; } to { translate: 360% 0; } }
+
+/* hover dos CTAs principais: o reflexo cruza na hora, o ícone dá uma volta
+   completa (como uma moeda) e o botão ganha um brilho verde suave */
+.btn--primary { transition: filter .2s, transform .2s, box-shadow .3s ease; }
+.btn--primary .btn__icon { transform: perspective(160px) rotateY(0deg); transition: transform .7s cubic-bezier(.4, 0, .2, 1); }
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(168, 207, 69, .35); }
+  .btn--primary:hover::after { animation: brilho-hover .75s ease-out; }
+  .btn--primary:hover .btn__icon { transform: perspective(160px) rotateY(360deg); }
+}
 
 .btn__icon {
   display: grid;
@@ -2245,6 +2256,8 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .selo__texto, .atendimento__selo-texto, .btn--primary::after { animation: none; }
+  .btn--primary .btn__icon { transition: none; }
+  .btn--primary:hover::after { animation: none; }
   .mega { transition: none; }
   .etapas.anima .etapa,
   .etapas.anima .etapa.is-visivel .etapa__numero,
