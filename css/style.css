@@ -1688,20 +1688,18 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   height: 42px;
   border-radius: 8px;
   background: var(--lime);
-  transition: filter .2s;
+  transition: filter .2s, transform .25s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .rodape__redes a:hover { filter: brightness(1.08); }
+  .rodape__redes a:hover { filter: brightness(1.08); transform: translateY(-4px); }
 }
 .rodape__redes img { width: 26px; height: 26px; }
 
 .rodape h2 {
-  margin-bottom: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 16px;
-  letter-spacing: 1.04px;
-  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
   color: var(--white);
 }
 .rodape__nav a {
@@ -1711,10 +1709,10 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   padding-block: 13.6px;
   font-size: 14px;
   line-height: 16.8px;
-  transition: color .2s;
+  transition: color .2s, transform .25s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .rodape__nav a:hover { color: var(--lime); }
+  .rodape__nav a:hover { color: var(--lime); transform: translateX(6px); }
 }
 
 .rodape__contato ul {
@@ -1730,6 +1728,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   min-height: 44px;
   padding-block: 2px;
 }
+.rodape__contato a { transition: transform .25s ease; }
 .rodape__contato-icone {
   display: grid;
   place-items: center;
@@ -1755,6 +1754,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   transition: color .2s;
 }
 @media (hover: hover) and (pointer: fine) {
+  .rodape__contato a:hover { transform: translateX(6px); }
   .rodape__contato a:hover .rodape__contato-valor { color: var(--lime); }
 }
 
@@ -2016,7 +2016,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .depoimentos__faixas { --item-w: 300px; --gap-x: 12px; --duracao: 50s; --inicio: var(--gutter); gap: 12px; }
 
   .rodape { padding: 56px 20px; border-radius: 20px 20px 0 0; }
-  .rodape__colunas { grid-template-columns: 1fr; gap: 40px; padding-bottom: 32px; }
+  .rodape__colunas { grid-template-columns: 1fr; gap: 56px; padding-bottom: 40px; }
   .rodape__logo img { width: 220px; }
   .rodape__barra { flex-direction: column; align-items: flex-start; gap: 8px; padding: 20px 0; }
   .rodape__descricao br { display: none; }
