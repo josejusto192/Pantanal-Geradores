@@ -943,6 +943,9 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 }
 .servicos__dots button[aria-current="true"]::before { width: 9px; height: 9px; background: var(--lime); }
 
+/* barra de controle do mobile (no desktop as setas ficam no cabeçalho, como no Figma) */
+.servicos__controles { display: none; }
+
 /* ==========================================================================
    Seção 6 — Como funciona (linha do tempo)
    ========================================================================== */
@@ -1969,6 +1972,39 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .servicos__header { flex-direction: column; align-items: flex-start; gap: 28px; }
   .servicos__titles { gap: 24px; }
   .serv-card { height: 440px; padding: 28px 24px; --serv-card-gap: 20px; }
+
+  /* setas saem do topo e vão para junto do card, com contador e progresso no lugar dos 10 dots */
+  .servicos__header .servicos__nav,
+  .servicos__dots { display: none; }
+  .servicos__controles {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: -8px;
+  }
+  .servicos__contador {
+    flex-shrink: 0;
+    font-size: 14px;
+    color: rgba(13, 17, 56, .55);
+    font-variant-numeric: tabular-nums;
+  }
+  .servicos__contador strong { font-size: 18px; font-weight: 700; color: var(--navy); }
+  .servicos__progresso {
+    flex: 1;
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(13, 17, 56, .12);
+    overflow: hidden;
+  }
+  .servicos__progresso span {
+    display: block;
+    height: 100%;
+    width: var(--progresso, 10%);
+    border-radius: inherit;
+    background: var(--lime);
+    transition: width .5s cubic-bezier(.4, 0, .2, 1);
+  }
+  .servicos__controles .servicos__nav { gap: 10px; }
 
   .portfolio { padding-block: 80px; gap: 40px; }
   .portfolio__header { gap: 28px; }

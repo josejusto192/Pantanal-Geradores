@@ -130,9 +130,16 @@ for (let i = 0; i < total; i++) {
   servDots.append(dot);
 }
 
+// contador e progresso da barra de controle do mobile
+const servAtual = document.querySelector('.servicos__atual');
+const servProgresso = document.querySelector('.servicos__progresso');
+document.querySelector('.servicos__total').textContent = String(total).padStart(2, '0');
+
 function markActive(pos = antes) { // pos = posição no DOM do card alinhado ao container
   [...track.children].forEach((card, i) => card.classList.toggle('is-active', i === pos));
   [...servDots.children].forEach((dot, i) => dot.setAttribute('aria-current', i === current));
+  servAtual.textContent = String(current + 1).padStart(2, '0');
+  servProgresso.style.setProperty('--progresso', `${((current + 1) / total) * 100}%`);
 }
 
 function moveCarousel(steps) {
