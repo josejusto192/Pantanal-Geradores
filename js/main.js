@@ -97,8 +97,11 @@ let current = 0; // índice do card alinhado ao container
 let moving = false;
 let antes = 0; // quantos cards ficam antes do container (cortados à esquerda)
 
+// Um passo = largura do card NORMAL + gap. O card ativo é mais largo (--serv-card-w-active);
+// medir um card qualquer faria o trilho andar a distância errada quando ele fosse o ativo.
 function passo() {
-  return track.children[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap);
+  const estilo = getComputedStyle(track);
+  return parseFloat(estilo.getPropertyValue('--serv-card-w')) + parseFloat(estilo.columnGap);
 }
 
 // leva cards do fim para o começo (ou de volta) até cobrir a borda esquerda da tela
