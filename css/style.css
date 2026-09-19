@@ -1987,7 +1987,8 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 
   /* imagem vertical do Figma: azul em cima para o texto, técnico embaixo */
   .hero {
-    min-height: max(880px, min(1250px, 100vw * 1.5));
+    /* 960 (era 880): com a linha de urgência o texto ficava sobre o capacete do técnico */
+    min-height: max(960px, min(1250px, 100vw * 1.5));
     background-image: url("../assets/img/hero-bg-mobile.webp");
     background-position: bottom center;
   }
