@@ -1195,12 +1195,13 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 36px 18px 14px;
-  background: linear-gradient(transparent, rgba(13, 17, 56, .85));
-  color: var(--white);
-  font-size: 14px;
-  font-weight: 600;
+  padding: 28px 14px 10px;
+  background: linear-gradient(transparent, rgba(13, 17, 56, .7));
+  color: rgba(255, 255, 255, .88);
+  font-size: 12px;
+  font-weight: 500;
   line-height: 1.3;
+  letter-spacing: .01em;
   pointer-events: none;
 }
 .portfolio__foto img { width: 100%; height: 100%; object-fit: cover; transition: scale .6s ease, filter .6s ease; }
@@ -1511,7 +1512,6 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   font-size: 18px;
   color: rgba(13, 17, 56, .8);
 }
-.contato__lead a { color: var(--navy); font-weight: 700; white-space: nowrap; }
 /* nome e cidade lado a lado; "o que você precisa" e o botão na largura toda */
 .contato__form {
   display: grid;
@@ -2092,6 +2092,14 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   /* mobile: 2 colunas com fotos do mesmo formato */
   .portfolio__grade { grid-template-columns: repeat(2, 1fr); grid-template-rows: none; aspect-ratio: auto; gap: 10px; }
   .portfolio__foto:nth-child(n) { grid-area: auto; aspect-ratio: 4 / 3; border-radius: 12px; }
+  .portfolio__foto figcaption {
+    padding: 18px 8px 6px;
+    font-size: 10px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
 
   .atendimento { padding-block: 80px; gap: 40px; }
   .atendimento__conteudo { gap: 28px; }
@@ -2121,13 +2129,16 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 
   .contato { padding-bottom: 80px; }
   .contato__card { border-radius: 20px; }
-  .contato__visual { height: 200px; padding: 28px; border-radius: 20px; }
-  .contato__form { grid-template-columns: 1fr; }
+  .contato__visual { height: 160px; padding: 28px; border-radius: 20px; }
+  .contato__form { grid-template-columns: 1fr; gap: 16px; }
+  .contato__form-area { padding: 24px 22px 28px; gap: 22px; }
+  .contato__header { gap: 14px; }
+  .contato__header .section-title { font-size: clamp(24px, 7vw, 30px); }
+  .contato__lead { font-size: 15px; }
+  .campo { gap: 8px; }
+  .campo label { font-size: 15px; }
+  .contato__aviso { margin-top: -4px; font-size: 12px; }
   .contato__logo { width: 190px; }
-  .contato__form-area { padding: 28px; gap: 28px; }
-  .contato__header { gap: 24px; }
-  .contato__lead { font-size: 16px; }
-  .campo label { font-size: 16px; }
   .btn--full { padding-left: 14px; font-size: 14px; gap: 10px; } /* em telas estreitas o rótulo não pode empurrar o ícone */
 
   .como-funciona { padding-block: 66px 80px; gap: 40px; } /* o fundo claro de Serviços termina 14px antes (onda), então o espaço visível fica 80px */
