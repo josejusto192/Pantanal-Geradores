@@ -1456,39 +1456,45 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 36px;
-  padding: 60px; /* igual nos quatro lados */
+  gap: 28px;
+  padding: 48px; /* igual nos quatro lados */
 }
 .contato__header {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 37px;
+  gap: 24px;
 }
+/* bloco dentro de uma seção: título menor que o das seções (48px) */
+.contato__header .section-title { font-size: clamp(28px, 8vw, 40px); }
 .contato__lead {
   font-size: 18px;
   color: rgba(13, 17, 56, .8);
 }
+/* nome e cidade lado a lado; "o que você precisa" e o botão na largura toda */
 .contato__form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 16px;
   align-self: stretch;
 }
+.contato__form .campo--largo,
+.contato__form .btn { grid-column: 1 / -1; }
 .campo {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
+  min-width: 0;
 }
 .campo label {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: rgba(13, 17, 56, .8);
 }
 .campo input {
   width: 100%;
-  height: 52px;
-  padding: 0 20px;
+  height: 48px;
+  padding: 0 18px;
   border: 1px solid rgba(55, 66, 83, .19);
   border-radius: 7px;
   background: rgba(237, 244, 248, .37);
@@ -1943,7 +1949,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .faq__cta { order: 1; margin-top: 8px; }
 
   .contato__card { flex-direction: column; align-items: stretch; }
-  .contato__visual { flex: none; height: 420px; padding: 48px; }
+  .contato__visual { flex: none; height: 280px; padding: 48px; }
   .contato__divisor { top: auto; bottom: -1px; right: auto; left: 50%; width: 97.633px; height: 29px; translate: -50% 0; }
   .contato__divisor img { rotate: none; }
   .contato__form-area { flex: none; padding: 48px; }
@@ -2041,7 +2047,8 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 
   .contato { padding-bottom: 80px; }
   .contato__card { border-radius: 20px; }
-  .contato__visual { height: 300px; padding: 28px; border-radius: 20px; }
+  .contato__visual { height: 200px; padding: 28px; border-radius: 20px; }
+  .contato__form { grid-template-columns: 1fr; }
   .contato__logo { width: 190px; }
   .contato__form-area { padding: 28px; gap: 28px; }
   .contato__header { gap: 24px; }
