@@ -862,7 +862,8 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 }
 /* enquanto a faixa desliza, os cards passam sob o ponteiro: sem isso o hover piscava */
 .servicos__track.is-moving { pointer-events: none; }
-/* card em destaque (o primeiro do container) e hover usam o gradiente mais claro do Figma */
+/* card em destaque (o primeiro do container) usa o gradiente mais claro do Figma.
+   Sem troca no hover: durante o slide o trilho fica sem pointer-events e o gradiente piscava. */
 .serv-card.is-active::before { opacity: 0; }
 .serv-card.is-active::after { opacity: 1; }
 
@@ -898,10 +899,6 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   /* primeiro abre o espaço, logo depois o conteúdo surge */
   transition: grid-template-rows .7s cubic-bezier(.4, 0, .2, 1) .15s, opacity .5s ease .25s, visibility 0s;
 }
-@media (hover: hover) and (pointer: fine) {
-  .serv-card:hover::before { opacity: 0; }
-  .serv-card:hover::after { opacity: 1; }
-}
 
 .serv-card__tag {
   font-size: 12px;
@@ -922,29 +919,23 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .serv-card__link:hover img { transform: translateX(4px); }
 }
 
-.servicos__dots {
-  display: flex;
-  justify-content: center;
-  margin-block: -7.5px; /* botões de 24px, mas o indicador do Figma tem 9px de altura */
+/* barra de progresso abaixo dos cards (anda junto com o slide) */
+.servicos__controles { display: flex; }
+.servicos__progresso {
+  flex: 1;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(13, 17, 56, .12);
+  overflow: hidden;
 }
-.servicos__dots button {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
+.servicos__progresso span {
+  display: block;
+  height: 100%;
+  width: var(--progresso, 10%);
+  border-radius: inherit;
+  background: var(--lime);
+  transition: width .5s cubic-bezier(.4, 0, .2, 1);
 }
-.servicos__dots button::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #b8c9d5;
-  transition: width .3s, height .3s, background .3s;
-}
-.servicos__dots button[aria-current="true"]::before { width: 9px; height: 9px; background: var(--lime); }
-
-/* barra de controle do mobile (no desktop as setas ficam no cabeçalho, como no Figma) */
-.servicos__controles { display: none; }
 
 /* ==========================================================================
    Seção 6 — Como funciona (linha do tempo)
@@ -1981,30 +1972,9 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .servicos__titles { gap: 24px; }
   .serv-card { height: 440px; padding: 28px 24px; --serv-card-gap: 20px; }
 
-  /* no celular: sem setas nem dots — o carrossel anda sozinho e por swipe, com uma barra de progresso */
-  .servicos__header .servicos__nav,
-  .servicos__dots { display: none; }
-  .servicos__controles {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: -8px;
-  }
-  .servicos__progresso {
-    flex: 1;
-    height: 3px;
-    border-radius: 3px;
-    background: rgba(13, 17, 56, .12);
-    overflow: hidden;
-  }
-  .servicos__progresso span {
-    display: block;
-    height: 100%;
-    width: var(--progresso, 10%);
-    border-radius: inherit;
-    background: var(--lime);
-    transition: width .5s cubic-bezier(.4, 0, .2, 1);
-  }
+  /* no celular: sem setas — o carrossel anda sozinho e por swipe */
+  .servicos__header .servicos__nav { display: none; }
+  .servicos__controles { margin-top: -8px; }
 
   .portfolio { padding-block: 80px; gap: 40px; }
   .portfolio__header { gap: 28px; }

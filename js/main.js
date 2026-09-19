@@ -90,7 +90,6 @@ servicosItem.querySelector('.mega__voltar').addEventListener('click', () => abri
 // Serviços: carrossel infinito. O DOM é rotacionado (1º card vai pro fim e vice-versa),
 // então o card "anterior" sempre aparece cortado à esquerda, como no Figma.
 const track = document.querySelector('.servicos__track');
-const servDots = document.querySelector('.servicos__dots');
 const total = track.children.length;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let current = 0; // índice do card alinhado ao container
@@ -119,23 +118,11 @@ function ajustarAntes() {
 
 ajustarAntes();
 
-for (let i = 0; i < total; i++) {
-  const dot = document.createElement('button');
-  dot.type = 'button';
-  dot.setAttribute('aria-label', `Serviço ${i + 1}`);
-  dot.addEventListener('click', () => {
-    const ahead = (i - current + total) % total; // caminho mais curto
-    moveCarousel(ahead <= total / 2 ? ahead : ahead - total);
-  });
-  servDots.append(dot);
-}
-
-// barra de progresso do mobile
+// barra de progresso
 const servProgresso = document.querySelector('.servicos__progresso');
 
 function markActive(pos = antes) { // pos = posição no DOM do card alinhado ao container
   [...track.children].forEach((card, i) => card.classList.toggle('is-active', i === pos));
-  [...servDots.children].forEach((dot, i) => dot.setAttribute('aria-current', i === current));
   servProgresso.style.setProperty('--progresso', `${((current + 1) / total) * 100}%`);
 }
 
@@ -205,12 +192,13 @@ track.addEventListener('click', (e) => { if (dragged) e.preventDefault(); }, tru
 
 markActive();
 
-// Mobile: o carrossel anda sozinho enquanto está na tela. Tocar pausa;
-// ao soltar, a contagem recomeça do zero para não pular logo depois do gesto.
-const telaMobile = matchMedia('(max-width: 768px)');
+// O carrossel anda sozinho enquanto está na tela. Tocar ou passar o mouse pausa;
+// ao soltar/sair (ou clicar numa seta) a contagem recomeça do zero.
 const INTERVALO_AUTOPLAY = 4500;
+const carrossel = track.closest('.servicos__carrossel');
 let autoplay = null;
 let carrosselVisivel = false;
+let mouseNoCarrossel = false;
 
 function pararAutoplay() {
   clearInterval(autoplay);
@@ -219,7 +207,7 @@ function pararAutoplay() {
 
 function iniciarAutoplay() {
   pararAutoplay();
-  if (!carrosselVisivel || !telaMobile.matches || reduceMotion.matches || document.hidden) return;
+  if (!carrosselVisivel || mouseNoCarrossel || reduceMotion.matches || document.hidden) return;
   autoplay = setInterval(() => moveCarousel(1), INTERVALO_AUTOPLAY);
 }
 
@@ -228,13 +216,24 @@ if ('IntersectionObserver' in window) {
   new IntersectionObserver(([entrada]) => {
     carrosselVisivel = entrada.isIntersecting;
     iniciarAutoplay();
-  }, { threshold: 0.5 }).observe(track.closest('.servicos__carrossel'));
+  }, { threshold: 0.5 }).observe(carrossel);
 }
+// só mouse de verdade: no iOS o toque emula mouseenter e nunca manda o mouseleave
+carrossel.addEventListener('pointerenter', (e) => {
+  if (e.pointerType !== 'mouse') return;
+  mouseNoCarrossel = true;
+  pararAutoplay();
+});
+carrossel.addEventListener('pointerleave', (e) => {
+  if (e.pointerType !== 'mouse') return;
+  mouseNoCarrossel = false;
+  iniciarAutoplay();
+});
+document.querySelectorAll('.servicos__btn').forEach((btn) => btn.addEventListener('click', iniciarAutoplay));
 track.addEventListener('pointerdown', pararAutoplay);
 track.addEventListener('pointerup', iniciarAutoplay);
 track.addEventListener('pointercancel', iniciarAutoplay);
 document.addEventListener('visibilitychange', iniciarAutoplay);
-telaMobile.addEventListener('change', iniciarAutoplay);
 
 // Faixas contínuas (portfólio e depoimentos): duplica os itens o mínimo necessário para o loop.
 // Poucas cópias = faixa mais curta, que no celular evita falhas de renderização.
