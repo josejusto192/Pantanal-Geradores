@@ -33,6 +33,150 @@
   <meta name="twitter:description" content="Preventiva, corretiva, instalação e diagnóstico de grupos geradores. Atendimento 24 horas em todo o Mato Grosso.">
   <meta name="twitter:image" content="https://pantanal-geradores.vercel.app/assets/img/og-image.jpg">
   <meta name="twitter:image:alt" content="Técnico da Pantanal Geradores em frente a um grupo gerador.">
+  <!-- Dados estruturados para o Google. A confirmar com o cliente: cidade-base (addressLocality),
+       ano de fundação (foundingDate) e perfis oficiais (sameAs). Trocar a URL junto com o domínio. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://pantanal-geradores.vercel.app/#empresa",
+        "name": "Pantanal Geradores",
+        "legalName": "Pantanal Geradores e Serviços LTDA",
+        "description": "Manutenção preventiva e corretiva, instalação, diagnóstico e serviços em QTA e comandos de grupos geradores, com atendimento 24 horas em todo o Mato Grosso.",
+        "url": "https://pantanal-geradores.vercel.app/",
+        "logo": "https://pantanal-geradores.vercel.app/icon-512.png",
+        "image": "https://pantanal-geradores.vercel.app/assets/img/og-image.jpg",
+        "telephone": "+55-65-99647-9191",
+        "email": "pantanalgeradores@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "MT",
+          "addressCountry": "BR"
+        },
+        "areaServed": {
+          "@type": "State",
+          "name": "Mato Grosso"
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+55-65-99647-9191",
+          "contactType": "customer service",
+          "areaServed": "BR-MT",
+          "availableLanguage": "Portuguese"
+        },
+        "knowsAbout": [
+          "Grupos geradores",
+          "Manutenção de geradores",
+          "QTA - Quadro de Transferência Automática",
+          "Controladores de grupo gerador",
+          "Energia de contingência"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Serviços",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Manutenção preventiva de grupos geradores"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Manutenção corretiva de grupos geradores"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Instalação de grupos geradores"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Diagnóstico e solução de falhas"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Revisão e inspeção"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "QTA, sistemas de transferência e comando"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Manutenção elétrica e eletrônica"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Testes de funcionamento e carga"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Assistência e atendimento emergencial 24 horas"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Retrofit de controladores"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://pantanal-geradores.vercel.app/#site",
+        "url": "https://pantanal-geradores.vercel.app/",
+        "name": "Pantanal Geradores",
+        "inLanguage": "pt-BR",
+        "publisher": {
+          "@id": "https://pantanal-geradores.vercel.app/#empresa"
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preload" href="assets/fonts/jura-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -168,6 +312,12 @@
         </li>
         <li><a class="trim" href="#projetos">Projetos</a></li>
         <li><a class="trim" href="#atendimento">Atendimento</a></li>
+        <li>
+          <a class="navbar__tel" href="tel:+5565996479191" aria-label="Ligar para (65) 99647-9191">
+            <img src="assets/icons/contato-telefone.svg" alt="" width="18" height="18">
+            <span class="trim">(65) 99647-9191</span>
+          </a>
+        </li>
         <li>
           <a class="navbar__contato" href="#contato">
             <span class="trim">Contato</span>
@@ -512,12 +662,13 @@
 
       <!-- Grade de 6 fotos (Figma 108:120): colunas 1 e 3 alta+baixa, coluna 2 baixa+alta -->
       <div class="container portfolio__grade">
-        <div class="portfolio__foto"><img src="assets/img/portfolio-1.webp" alt="Sala com grupos geradores instalados" width="950" height="713" loading="lazy"></div>
-        <div class="portfolio__foto"><img src="assets/img/portfolio-2.webp" alt="Grupo gerador Geraforte com motor diesel" width="950" height="713" loading="lazy"></div>
-        <div class="portfolio__foto"><img src="assets/img/portfolio-3.webp" alt="Grupo gerador com painel de controle" width="950" height="713" loading="lazy"></div>
-        <div class="portfolio__foto"><img src="assets/img/portfolio-5.webp" alt="Grupo gerador carenado instalado" width="950" height="713" loading="lazy"></div>
-        <div class="portfolio__foto"><img src="assets/img/portfolio-4.webp" alt="Motor Volvo de grupo gerador" width="950" height="713" loading="lazy"></div>
-        <div class="portfolio__foto"><img src="assets/img/portfolio-6.webp" alt="Grupo gerador carenado aberto para manutenção" width="950" height="713" loading="lazy"></div>
+        <!-- Legendas descrevem o que aparece na foto. TODO: confirmar com o cliente o serviço e a cidade de cada uma -->
+        <figure class="portfolio__foto"><img src="assets/img/portfolio-1.webp" alt="Sala com grupos geradores instalados" width="950" height="713" loading="lazy"><figcaption>Sala técnica com grupos geradores</figcaption></figure>
+        <figure class="portfolio__foto"><img src="assets/img/portfolio-2.webp" alt="Grupo gerador Geraforte com motor diesel" width="950" height="713" loading="lazy"><figcaption>Grupo gerador Geraforte · motor diesel</figcaption></figure>
+        <figure class="portfolio__foto"><img src="assets/img/portfolio-3.webp" alt="Grupo gerador com painel de controle" width="950" height="713" loading="lazy"><figcaption>Painel de controle e comando</figcaption></figure>
+        <figure class="portfolio__foto"><img src="assets/img/portfolio-5.webp" alt="Grupo gerador carenado instalado" width="950" height="713" loading="lazy"><figcaption>Grupo gerador carenado instalado</figcaption></figure>
+        <figure class="portfolio__foto"><img src="assets/img/portfolio-4.webp" alt="Motor Volvo de grupo gerador" width="950" height="713" loading="lazy"><figcaption>Motor Volvo de grupo gerador</figcaption></figure>
+        <figure class="portfolio__foto"><img src="assets/img/portfolio-6.webp" alt="Grupo gerador carenado aberto para manutenção" width="950" height="713" loading="lazy"><figcaption>Carenado aberto para manutenção</figcaption></figure>
       </div>
 
       <img class="portfolio__onda portfolio__onda--base" src="assets/icons/onda-azul.svg" alt="" width="2427" height="45" aria-hidden="true">

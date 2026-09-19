@@ -224,6 +224,19 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 .navbar__toggle { display: none; }
 
 /* Contato: botão do header (Figma 79:494) */
+/* telefone: discreto, como mais um item do menu */
+/* mesma especificidade dos links do menu (que são display: block), senão o ícone ia para cima do número */
+.navbar__links > li > .navbar__tel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: color .2s;
+}
+.navbar__tel img { width: 18px; height: 18px; }
+@media (hover: hover) and (pointer: fine) {
+  .navbar__tel:hover { color: #6f9a12; }
+}
 .navbar__links > li > .navbar__contato {
   display: inline-flex;
   align-items: center;
@@ -620,7 +633,10 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   flex-direction: column;
   gap: 11px;
   width: 627px;
-  flex-shrink: 0;
+  /* encolhe entre 1101 e 1229px: com 627px fixos + texto de 522px a página
+     transbordava na lateral nessa faixa. As fotos usam object-fit: cover. */
+  flex-shrink: 1;
+  min-width: 0;
 }
 .abordagem .foto { height: 279px; }
 .abordagem__logo {
@@ -1166,10 +1182,26 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   min-height: 0; /* senão o Chrome deixa a altura das fotos esticar a grade além da proporção */
 }
 .portfolio__foto {
+  position: relative;
   min-height: 0;
+  margin: 0;
   border-radius: 16px;
   overflow: hidden;
   background: var(--bg-light);
+}
+/* legenda sobre a foto, com um degradê só na base para ler bem */
+.portfolio__foto figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 36px 18px 14px;
+  background: linear-gradient(transparent, rgba(13, 17, 56, .85));
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  pointer-events: none;
 }
 .portfolio__foto img { width: 100%; height: 100%; object-fit: cover; transition: scale .6s ease, filter .6s ease; }
 /* hover sutil: a foto aproxima um pouco dentro da moldura e ganha brilho */
@@ -1569,7 +1601,9 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 }
 .faq__inner {
   display: grid;
-  grid-template-columns: 413px 739px;
+  /* larguras do Figma como máximo: entre 1101 e 1165px elas não cabiam e a página transbordava */
+  grid-template-columns: minmax(0, 413px) minmax(0, 739px);
+  column-gap: 40px;
   justify-content: space-between;
   align-items: start;
 }
@@ -1711,7 +1745,8 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
 }
 .rodape__colunas {
   display: grid;
-  grid-template-columns: 340.4px 226.9px 226.9px 317.7px;
+  grid-template-columns: minmax(0, 340.4px) minmax(0, 226.9px) minmax(0, 226.9px) minmax(0, 317.7px);
+  column-gap: 24px;
   justify-content: space-between;
   padding-bottom: 48px;
 }
