@@ -382,6 +382,24 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   padding-top: 84.2px;
   padding-bottom: 80px;
 }
+/* CTA principal + linha de emergência juntos: contam como um item só no espaçamento do hero */
+.hero__acoes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.hero__urgente {
+  font-size: 15px;
+  color: #d7e3ee;
+}
+.hero__urgente a {
+  color: var(--lime);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
 .hero__heading {
   display: flex;
   flex-direction: column;
@@ -415,9 +433,6 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   border-radius: 50%;
   object-fit: cover;
 }
-.hero__thumbs img:nth-child(1) { object-position: 50% 35%; }
-.hero__thumbs img:nth-child(2) { object-position: 60% 50%; }
-.hero__thumbs img:nth-child(3) { object-position: 35% 50%; }
 .hero__thumbs img + img { margin-left: -9px; }
 /* hover: o avatar sobe um pouco e empurra os vizinhos de leve */
 .hero__thumbs img { position: relative; transition: translate .3s ease, margin-left .3s ease, scale .3s ease; }
@@ -1471,6 +1486,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   font-size: 18px;
   color: rgba(13, 17, 56, .8);
 }
+.contato__lead a { color: var(--navy); font-weight: 700; white-space: nowrap; }
 /* nome e cidade lado a lado; "o que você precisa" e o botão na largura toda */
 .contato__form {
   display: grid;
@@ -2092,7 +2108,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .zap img { width: 24px; height: 24px; }
 
   /* mobile: só a hero e a Área de atendimento ficam centralizadas */
-  .hero__content, .hero__heading,
+  .hero__content, .hero__heading, .hero__acoes,
   .atendimento__conteudo, .atendimento__header {
     text-align: center;
     align-items: center;
