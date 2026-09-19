@@ -2098,7 +2098,8 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .beneficios__cards { display: flex; flex-direction: column; padding-bottom: 48px; margin-bottom: -36px; }
   .ben-card {
     position: sticky;
-    min-height: 196px; /* alturas iguais: cards mais baixos sairiam depois dos outros e ficariam sozinhos */
+    /* alturas iguais (o JS mede o maior): com alturas diferentes a pilha solta fora de ordem */
+    height: var(--altura-card, auto);
     /* a pilha começa abaixo do menu fixo (que termina em 76px), com 16px de degrau entre cards */
     --topo-pilha: 96px;
     top: var(--topo-pilha);
@@ -2107,6 +2108,14 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .ben-card:nth-child(2) { top: calc(var(--topo-pilha) + 16px); }
   .ben-card:nth-child(3) { top: calc(var(--topo-pilha) + 32px); }
   .ben-card:nth-child(4) { top: calc(var(--topo-pilha) + 48px); }
+  /* O sticky solta cada card quando o fim da pilha alcança a borda inferior da margem dele.
+     Como cada card gruda 16px mais baixo que o anterior, o último soltava primeiro e subia
+     por cima dos outros. A margem de baixo compensa o degrau (48/32/16/0) para os quatro
+     soltarem juntos; a margem negativa no seguinte devolve o espaçamento de antes. */
+  .ben-card:nth-child(1) { margin-bottom: 48px; }
+  .ben-card:nth-child(2) { margin-top: -48px; margin-bottom: 32px; }
+  .ben-card:nth-child(3) { margin-top: -32px; margin-bottom: 16px; }
+  .ben-card:nth-child(4) { margin-top: -16px; }
 }
 
 /* Entrada dos cards: a classe .entra vem do JS, só quando o motion não está reduzido */

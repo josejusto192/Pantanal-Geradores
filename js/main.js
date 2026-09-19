@@ -301,6 +301,19 @@ function remedirCarrosseis(forcar = false) {
   montarFaixas(forcar);
 }
 
+// Benefícios (pilha do mobile): todos os cards com a altura do maior. O texto quebra
+// diferente em cada largura, e card de altura diferente solta da pilha fora de ordem.
+const listaBeneficios = document.querySelector('.beneficios__cards');
+function igualarBeneficios() {
+  listaBeneficios.style.removeProperty('--altura-card');
+  const maior = Math.max(...[...listaBeneficios.children].map((c) => c.offsetHeight));
+  listaBeneficios.style.setProperty('--altura-card', `${maior}px`);
+}
+igualarBeneficios();
+document.fonts.ready.then(igualarBeneficios);
+let igualarTimer;
+addEventListener('resize', () => { clearTimeout(igualarTimer); igualarTimer = setTimeout(igualarBeneficios, 150); });
+
 document.fonts.ready.then(() => remedirCarrosseis(true));
 addEventListener('load', () => remedirCarrosseis(true));
 
