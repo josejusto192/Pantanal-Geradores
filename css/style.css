@@ -202,7 +202,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   margin-inline: auto;
   padding: 20px 16px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, .82);
+  background: rgba(255, 255, 255, .95); /* quase igual ao estado fixo (.96): antes (.82) ficava transparente demais sobre a foto */
 }
 .navbar__logo {
   width: 247.378px; /* tamanho real do SVG: a caixa do Figma cortava as bordas */
