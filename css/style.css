@@ -1357,13 +1357,21 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   padding: 19px 20px 20px; /* 20px no Figma contando a borda superior (interna) */
   border-top: 1px solid var(--bg-light);
 }
-.depo-card__autor img {
+/* iniciais no lugar da foto até chegarem os depoimentos reais */
+.depo-card__iniciais {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
   width: 44px;
   height: 44px;
   border-radius: 13px;
-  object-fit: cover;
-  background: var(--bg-light);
+  background: var(--navy);
+  color: var(--lime);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .04em;
 }
+.depo-card__iniciais--lime { background: var(--lime); color: var(--navy); }
 .depo-card__autor div {
   display: flex;
   flex-direction: column;
