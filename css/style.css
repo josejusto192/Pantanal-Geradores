@@ -727,6 +727,25 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   border-radius: 20px;
   background: var(--bg-light);
   color: rgba(13, 17, 56, .8);
+  position: relative;
+}
+/* detalhe verde: um trecho curto de borda no topo, à esquerda */
+.ben-card::before {
+  content: "";
+  position: absolute;
+  top: -2px; /* metade para fora: fica visível sobre o fundo escuro, como um trecho de borda */
+  left: 32px;
+  width: 44px;
+  height: 5px;
+  border-radius: 5px;
+  background: var(--lime);
+  transition: width .35s ease;
+}
+/* hover sutil: sobe um pouco e o detalhe verde se estende (transform: o translate é da entrada) */
+@media (hover: hover) and (pointer: fine) {
+  .ben-card { transition: transform .35s ease; }
+  .ben-card:hover { transform: translateY(-6px); }
+  .ben-card:hover::before { width: 88px; }
 }
 .ben-card__icon {
   display: grid;
@@ -737,7 +756,8 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   background: var(--lime);
 }
 .ben-card__icon img { width: 21px; height: 21px; }
-.ben-card h3 { font-size: 18px; font-weight: 700; }
+/* título maior e na cor cheia: com a mesma cor e só 2px a mais, quase não se distinguia do texto */
+.ben-card h3 { font-size: 21px; font-weight: 700; color: var(--navy); }
 .ben-card p { font-size: 16px; }
 
 /* ==========================================================================
@@ -2039,6 +2059,7 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .beneficios__inner, .beneficios__header { gap: 28px; }
   .beneficios__lead { font-size: 16px; }
   .ben-card { min-height: 0; padding: 28px 24px; }
+  .ben-card::before { left: 24px; }
   .abordagem__logo img { width: 170px; }
 
   .navbar { padding: 16px; }
@@ -2078,12 +2099,14 @@ section[id], header[id], footer[id] { scroll-margin-top: 110px; }
   .ben-card {
     position: sticky;
     min-height: 196px; /* alturas iguais: cards mais baixos sairiam depois dos outros e ficariam sozinhos */
-    top: 24px;
+    /* a pilha começa abaixo do menu fixo (que termina em 76px), com 16px de degrau entre cards */
+    --topo-pilha: 96px;
+    top: var(--topo-pilha);
     box-shadow: 0 -6px 16px rgba(3, 8, 63, .18);
   }
-  .ben-card:nth-child(2) { top: 40px; }
-  .ben-card:nth-child(3) { top: 56px; }
-  .ben-card:nth-child(4) { top: 72px; }
+  .ben-card:nth-child(2) { top: calc(var(--topo-pilha) + 16px); }
+  .ben-card:nth-child(3) { top: calc(var(--topo-pilha) + 32px); }
+  .ben-card:nth-child(4) { top: calc(var(--topo-pilha) + 48px); }
 }
 
 /* Entrada dos cards: a classe .entra vem do JS, só quando o motion não está reduzido */
